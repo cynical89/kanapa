@@ -5,4 +5,4 @@ mono:
 before_script:
   - chmod +x ./build.sh
 script:
-  - ./build.sh --quiet verify
+  - bash ./build.sh --quiet verify

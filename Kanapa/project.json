@@ -1,10 +1,12 @@
 ﻿{
-  "version": "1.0.0-beta4",
-  "description": "CouchDb Client",
+  "version": "1.0.0-beta4-0001",
+  "description": "CouchDb Client for DNX runtime",
   "authors": [ "Uladzimir Harabtsou" ],
   "tags": [ "vnext","dnx","couchdb" ],
   "projectUrl": "https://github.com/l0nley/kanapa",
   "licenseUrl": "http://opensource.org/licenses/MIT",
+  "summary": "Simple CouchDb client for DNX runtime",
+  "copyright": "Uladzimir Harabtsou, 2015",
 
   "dependencies": {
   },
