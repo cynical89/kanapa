@@ -1,12 +1,27 @@
 **Kanapa**
 
-Simple CouchDb client for DNX runtime.
+Simple async CouchDb client for DNX runtime.
 
 Package availiable via feed https://www.myget.org/F/l0nley
 
 ![Travis](https://travis-ci.org/l0nley/kanapa.svg "Travis")
 ![AppVeyor](https://ci.appveyor.com/api/projects/status/lu20j810qa1yk7v9?svg=true "AppVeyor")
 
+**Example**
+
+```csharp
+      var dbName = "someDatabase";
+      var client = new CouchClient("http://couch:5984");
+      await client.CreateDatabase(dbName)
+      var entity = await client.Create(dbName, new SimpleObject
+      {
+        Name = name,
+        Value = value
+      });
+      var document = await client.Get<SimpleObject>(dbName, entity.Id);
+```
+
+**License**
 
 The MIT License (MIT)
 
