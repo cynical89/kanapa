@@ -1,3 +1,9 @@
+**Kanapa**
+Simple CouchDb client for DNX runtime.
+
+![Travis](https://travis-ci.org/l0nley/kanapa.svg "Travis")
+
+
 The MIT License (MIT)
 
 Copyright (c) 2015 Uladzimir Harabtsou
