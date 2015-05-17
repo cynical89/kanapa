@@ -5,16 +5,12 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Kanapa", "Kanapa\Kanapa.xproj", "{6CFB1EF8-A368-4278-BB0A-71A58B97367C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4048EC9-0209-4B46-99D0-E51DBDD13F9F}"
-	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		build.cake = build.cake
-		build.ps1 = build.ps1
-		NuGet.config = NuGet.config
-		readme.md = readme.md
-	EndProjectSection
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Kanapa.Tests", "Kanapa.Tests\Kanapa.Tests.xproj", "{5B3290F2-18D0-421C-9DBD-95586EC58D56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B30E433D-9F58-4F18-AE63-7E817E7D87EB}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
