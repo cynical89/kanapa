@@ -1,7 +1,7 @@
-init:
+version: 1.0.0-beta4-{build}init:
   - git config --global core.autocrlf true
 build_script:
   - build.cmd --quiet verify
-clone_depth: 1
+clone_depth: 50
 test: off
 deploy: off

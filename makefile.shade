@@ -1,6 +1,9 @@
 var VERSION='0.1'
 var FULL_VERSION='0.1'
 var AUTHORS='Uladzimir Harabtsou'
+var BASE_DIR='${Directory.GetCurrentDirectory()}'
+var TARGET_DIR='${Path.Combine(BASE_DIR, "target")}'
+var BUILD_DIR='${Path.Combine(TARGET_DIR, "build")}'
 
 use-standard-lifecycle
-k-standard-goals
+use-standard-goals
