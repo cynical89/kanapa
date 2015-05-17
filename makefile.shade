@@ -6,4 +6,6 @@ var TARGET_DIR='${Path.Combine(BASE_DIR, "target")}'
 var BUILD_DIR='${Path.Combine(TARGET_DIR, "build")}'
 
 use-standard-lifecycle
-use-standard-goals
+k-standard-goals
+
+#default .clean .build-compile
