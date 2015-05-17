@@ -1,0 +1,34 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "CouchDb Client",
+  "authors": [ "Uladzimir Harabtsou" ],
+  "tags": [ "vnext","dnx","couchdb" ],
+  "projectUrl": "https://github.com/l0nley/kanapa",
+  "licenseUrl": "http://opensource.org/licenses/MIT",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "dependencies": {
+        "System.Collections": "4.0.10-beta-22816",
+        "Newtonsoft.Json": "6.0.6",
+        "Microsoft.Framework.WebEncoders": "1.0.0-beta4"
+      }
+    },
+    "dnxcore50": {
+      "dependencies": {
+        "System.Collections": "4.0.10-beta-22816",
+        "Newtonsoft.Json": "6.0.6",
+        "Microsoft.Framework.WebEncoders": "1.0.0-beta4",
+        "System.Dynamic.Runtime": "4.0.10-beta-22816",
+        "System.Runtime.Serialization.Primitives": "4.0.10-beta-22816",
+        "System.Runtime": "4.0.20-beta-22816",
+        "System.Reflection": "4.0.10-beta-22816",
+        "System.Net.Http": "4.0.0.0",
+        "System.Threading.Tasks": "4.0.10-beta-22816"
+      }
+    }
+  }
+}
