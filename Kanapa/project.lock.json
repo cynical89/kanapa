@@ -21,6 +21,60 @@
     ]
   },
   "libraries": {
+    "Kanapa/1.0.0-beta4-0001": {
+      "serviceable": false,
+      "sha": "3iCLkxGj46wQ8Md89qT2BlZnD6y2WA7zP7Be9GRiW24BmE9UcHl+xIzRaTMsJtciWRWvZbY7jnquMtODBeXXIg==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {
+            "System.Collections": "4.0.10-beta-22816",
+            "Newtonsoft.Json": "6.0.6",
+            "Microsoft.Framework.WebEncoders": "1.0.0-beta4"
+          },
+          "frameworkAssemblies": [
+            "mscorlib",
+            "System",
+            "System.Core",
+            "Microsoft.CSharp"
+          ],
+          "runtimeAssemblies": [
+            "lib/dnx451/Kanapa.dll"
+          ],
+          "compileAssemblies": [
+            "lib/dnx451/Kanapa.dll"
+          ]
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {
+            "System.Collections": "4.0.10-beta-22816",
+            "Newtonsoft.Json": "6.0.6",
+            "Microsoft.Framework.WebEncoders": "1.0.0-beta4",
+            "System.Dynamic.Runtime": "4.0.10-beta-22816",
+            "System.Runtime.Serialization.Primitives": "4.0.10-beta-22816",
+            "System.Runtime": "4.0.20-beta-22816",
+            "System.Reflection": "4.0.10-beta-22816",
+            "System.Net.Http": "4.0.0.0",
+            "System.Threading.Tasks": "4.0.10-beta-22816"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/dnxcore50/Kanapa.dll"
+          ],
+          "compileAssemblies": [
+            "lib/dnxcore50/Kanapa.dll"
+          ]
+        }
+      },
+      "files": [
+        "Kanapa.1.0.0-beta4-0001.nupkg",
+        "Kanapa.1.0.0-beta4-0001.nupkg.sha512",
+        "Kanapa.nuspec",
+        "lib/dnx451/Kanapa.dll",
+        "lib/dnx451/Kanapa.xml",
+        "lib/dnxcore50/Kanapa.dll",
+        "lib/dnxcore50/Kanapa.xml"
+      ]
+    },
     "Microsoft.Framework.ConfigurationModel/1.0.0-beta4": {
       "serviceable": true,
       "sha": "VD5MhmQRhYVfxyDs1fyruPTj3pYwLMV5dXJkPUVg1KKbJ9qr/tEn3frJA1NN1jdeVBt1RrW5FXr+wWG9YoO9Yg==",
