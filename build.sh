@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 if test `uname` = Darwin; then
     cachedir=~/Library/Caches/KBuild
