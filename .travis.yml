@@ -3,4 +3,4 @@ sudo: true
 mono:
   - 3.12.0
 script:
-  - ./build.sh --quiet verify
+  - build.sh --quiet verify
