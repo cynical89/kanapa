@@ -1,7 +1,10 @@
-version: 1.0.0-beta4-{build}init:
+# Build script
+init:
   - git config --global core.autocrlf true
+
+# Build script
 build_script:
-  - build.cmd --quiet --compile verify
-clone_depth: 50
+  - cmd: powershell -NoProfile -ExecutionPolicy unrestricted -Command .\build.ps1 -Target "AppVeyor"
+
+# Tests
 test: off
-deploy: off
