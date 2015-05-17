@@ -1,7 +1,9 @@
 **Kanapa**
+
 Simple CouchDb client for DNX runtime.
 
 ![Travis](https://travis-ci.org/l0nley/kanapa.svg "Travis")
+![AppVeyor](https://ci.appveyor.com/api/projects/status/lu20j810qa1yk7v9?svg=true "AppVeyor")
 
 
 The MIT License (MIT)
