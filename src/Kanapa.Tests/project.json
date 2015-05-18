@@ -5,9 +5,6 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-        "Microsoft.AspNet.Hosting": "1.0.0-beta4",
-        "Microsoft.AspNet.Owin": "1.0.0-beta4-11362",
-        "Microsoft.AspNet.Testing": "1.0.0-beta4-11314",
         "Microsoft.Framework.OptionsModel": "1.0.0-beta4",
         "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4",
         "xunit.runner.aspnet": "2.0.0-aspnet-beta4-10266",
@@ -19,9 +16,6 @@
     },
     "dnxcore50" :  {
       "dependencies": {
-        "Microsoft.AspNet.Hosting": "1.0.0-beta4",
-        "Microsoft.AspNet.Owin": "1.0.0-beta4-11362",
-        "Microsoft.AspNet.Testing": "1.0.0-beta4-11314",
         "Microsoft.Framework.OptionsModel": "1.0.0-beta4",
         "Microsoft.Framework.Runtime": "1.0.0-beta4",
         "xunit.runner.aspnet": "2.0.0-aspnet-beta4-10266",
