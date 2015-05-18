@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
+using System.Net;
+using System.Threading;
 using Microsoft.Framework.WebEncoders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,7 +12,6 @@ using Newtonsoft.Json.Linq;
 #if DNXCORE50
 using System.Net.Http;
 #else
-using System.Net;
 using System.IO;
 #endif
 
@@ -20,11 +21,17 @@ namespace Kanapa
   {
     private readonly string _host;
     private readonly IUrlEncoder _urlEncoder;
+    private readonly IAuthenticationInterceptor _authenticationInterceptor;
+    private readonly IList<ICouchHeader> _headers;
+    private readonly ManualResetEvent _locker;
 
-    public CouchClient(string host, IUrlEncoder urlEncoder)
+    public CouchClient(string host, IUrlEncoder urlEncoder, IAuthenticationInterceptor authenticationInterceptor = null)
     {
       _host = host.EndsWith("/") ? host.Substring(0, host.Length - 1) : host;
       _urlEncoder = urlEncoder;
+      _authenticationInterceptor = authenticationInterceptor;
+      _headers = new List<ICouchHeader>();
+      _locker = new ManualResetEvent(true);
     }
 
     public async Task<IEnumerable<string>> GetDatabaseNames()
@@ -208,7 +215,7 @@ namespace Kanapa
       try
       {
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/{documentId}", "PUT",JsonConvert.SerializeObject(item)));
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/{documentId}", "PUT", JsonConvert.SerializeObject(item)));
       }
       catch (Exception e)
       {
@@ -355,12 +362,75 @@ namespace Kanapa
       return urlPart;
     }
 
-    private async Task<string> RequestDatabase(string url, string method, string data = null, string contentType = null) =>
+    private async Task<string> RequestDatabase(string url, string method, string data = null, string contentType = null, int deep = 0, Exception exception = null)
+    {
+      string result;
+      try
+      {
 #if DNXCORE50
-       await DnxCoreImplementation(url, method, data, contentType);
+        result = await DnxCoreImplementation(url, method, data, contentType);
 #else
-       await Dnx451Implementation(url, method, data, contentType);
+        result = await Dnx451Implementation(url, method, data, contentType);
 #endif
+      }
+#if !DNXCORE50
+      catch (WebException e)
+      {
+        if (deep > 0)
+        {
+          throw new CouchException("Authentication interceptor failed to authenticate user", new AggregateException(e, exception));
+        }
+        if (e.Status != WebExceptionStatus.ProtocolError)
+        {
+          throw new CouchException("Exception occured during requesting remote resource.", e);
+        }
+        if (((HttpWebResponse)e.Response).StatusCode != HttpStatusCode.Unauthorized)
+        {
+          throw new CouchException("Exception occured during requesting remote resource.", e);
+        }
+        if (_authenticationInterceptor == null)
+        {
+          throw new CouchException("Authentication interceptor is not set, but server requires authentication.", e);
+        }
+
+        lock (_headers)
+        {
+          _headers.Clear();
+          var headers = _authenticationInterceptor.Authenticate(_host);
+          foreach (var header in headers)
+          {
+            _headers.Add(header);
+          }
+        }
+
+        return await RequestDatabase(url, method, data, contentType, ++deep, e);
+      }
+#else
+      catch (CouchException e)
+      {
+        if (deep > 0)
+        {
+          throw new CouchException("Authentication interceptor failed to authenticate user", new AggregateException(e, exception));
+        }
+        if (_authenticationInterceptor == null)
+        {
+          throw new CouchException("Authentication interceptor is not set, but server requires authentication.", e);
+        }
+        lock (_headers)
+        {
+          _headers.Clear();
+          var headers = _authenticationInterceptor.Authenticate(_host);
+          foreach (var header in headers)
+          {
+            _headers.Add(header);
+          }
+        }
+        return await RequestDatabase(url, method, data, contentType, ++deep, e);
+      }
+#endif
+      return result;
+    }
+
 #if DNXCORE50
     private async Task<string> DnxCoreImplementation(string url, string method, string data, string contentType)
     {
@@ -375,22 +445,42 @@ namespace Kanapa
           {
             request.Content = new StringContent(data, Encoding.UTF8, contentType);
           }
+
+          lock (_headers)
+          {
+            foreach(var header in _headers)
+            {
+              request.Headers.Add(header.Name,header.Value);
+            }
+          }
           var result = await client.SendAsync(request);
+          if(result.StatusCode == HttpStatusCode.Unauthorized)
+          {
+            throw new CouchException();
+          }
           var content = await result.Content.ReadAsStringAsync();
           return content;
         }
       }
     }
 #else
-    private async Task<string> Dnx451Implementation(string url, string method, string data, string contentType)
+    private async Task<string> Dnx451Implementation(string url, string method, string data, string contentType, int deep=0, Exception e = null)
     {
       var req = (HttpWebRequest)WebRequest.Create(url);
       req.Method = method;
-      req.Timeout = System.Threading.Timeout.Infinite;
+      req.Timeout = Timeout.Infinite;
 
       if (string.IsNullOrEmpty(contentType) == false)
       {
         req.ContentType = contentType;
+      }
+
+      lock (_headers)
+      {
+        foreach (var header in _headers)
+        {
+          req.Headers[header.Name] = header.Value;
+        }
       }
 
       if (string.IsNullOrEmpty(data) == false)
