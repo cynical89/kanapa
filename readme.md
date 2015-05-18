@@ -10,7 +10,7 @@ Package availiable via feed https://www.myget.org/F/l0nley
 
 ```csharp
       var dbName = "someDatabase";
-      var client = new CouchClient("http://couch:5984");
+      var client = new CouchClient("http://couch:5984", new UrlEncoder());
       await client.CreateDatabase(dbName)
       var entity = await client.Create(dbName, new SimpleObject
       {
