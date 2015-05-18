@@ -21,13 +21,13 @@ namespace Kanapa
   {
     private readonly string _host;
     private readonly IUrlEncoder _urlEncoder;
-    private readonly IAuthenticationInterceptor _authenticationInterceptor;
+    private readonly ICouchAuthenticationInterceptor _couchAuthenticationInterceptor;
 
-    public CouchClient(string host, IUrlEncoder urlEncoder, IAuthenticationInterceptor authenticationInterceptor = null)
+    public CouchClient(string host, IUrlEncoder urlEncoder, ICouchAuthenticationInterceptor couchAuthenticationInterceptor = null)
     {
       _host = host.EndsWith("/") ? host.Substring(0, host.Length - 1) : host;
       _urlEncoder = urlEncoder;
-      _authenticationInterceptor = authenticationInterceptor;
+      _couchAuthenticationInterceptor = couchAuthenticationInterceptor;
     }
 
     public async Task<IEnumerable<string>> GetDatabaseNames()
@@ -42,11 +42,11 @@ namespace Kanapa
       }
     }
 
-    public async Task<DatabaseMetadata> GetDatabaseMetadata(string db)
+    public async Task<CouchDatabaseMetadata> GetDatabaseMetadata(string db)
     {
       try
       {
-        return JsonConvert.DeserializeObject<DatabaseMetadata>(await RequestDatabase($"{_host}/{db}/", "GET"));
+        return JsonConvert.DeserializeObject<CouchDatabaseMetadata>(await RequestDatabase($"{_host}/{db}/", "GET"));
       }
       catch (Exception e)
       {
@@ -54,7 +54,7 @@ namespace Kanapa
       }
     }
 
-    public async Task<IEnumerable<DocumentMetadata>> GetAllDocuments(string db, string fromKey = null, string toKey = null)
+    public async Task<IEnumerable<CouchDocumentMetadata>> GetAllDocuments(string db, string fromKey = null, string toKey = null)
     {
       try
       {
@@ -62,7 +62,7 @@ namespace Kanapa
 
         var d = JObject.Parse(result);
 
-        return d["rows"].Select(row => new DocumentMetadata
+        return d["rows"].Select(row => new CouchDocumentMetadata
         {
           Id = row["id"].Value<string>(),
           Revision = row["value"]["rev"].Value<string>()
@@ -74,12 +74,12 @@ namespace Kanapa
       }
     }
 
-    public async Task<EntityInfo> CreateDesign(string db, string name, IEnumerable<ViewDefinition> views)
+    public async Task<CouchEntityInfo> CreateDesign(string db, string name, IEnumerable<CouchViewDefinition> views)
     {
       Response response;
       try
       {
-        var design = new DesignDocument
+        var design = new CouchDesignDocument
         {
           Id = $"_design/{name}",
           Language = "javascript",
@@ -100,7 +100,7 @@ namespace Kanapa
         throw new CouchException($"Cant create design document {db}/_design/{name}: {response.Reason}");
       }
 
-      return new EntityInfo { ETag = response.ETag, Id = response.EntityId };
+      return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
     public async Task<CouchClient> DeleteDesign(string db, string name, string etag)
@@ -123,11 +123,11 @@ namespace Kanapa
       return this;
     }
 
-    public async Task<DesignDocument> GetDesign(string db, string name)
+    public async Task<CouchDesignDocument> GetDesign(string db, string name)
     {
       try
       {
-        return JsonConvert.DeserializeObject<DesignDocument>(await RequestDatabase($"{_host}/{db}/_design/{name}", "GET"));
+        return JsonConvert.DeserializeObject<CouchDesignDocument>(await RequestDatabase($"{_host}/{db}/_design/{name}", "GET"));
       }
       catch (Exception e)
       {
@@ -135,42 +135,42 @@ namespace Kanapa
       }
     }
 
-    public async Task<EntityInfo> PutDesign(string db, DesignDocument design)
+    public async Task<CouchEntityInfo> PutDesign(string db, CouchDesignDocument couchDesign)
     {
       Response response;
       try
       {
-        design.IgnoreRevisionAndId = true;
+        couchDesign.IgnoreRevisionAndId = true;
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/_design/{design.Name}", "PUT",
-            JsonConvert.SerializeObject(design)));
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/_design/{couchDesign.Name}", "PUT",
+            JsonConvert.SerializeObject(couchDesign)));
       }
       catch (Exception e)
       {
-        throw new CouchException($"Can`t create view {db}/_design/{design.Name} : {e.Message}", e);
+        throw new CouchException($"Can`t create view {db}/_design/{couchDesign.Name} : {e.Message}", e);
       }
 
       if (response.Ok == false)
       {
-        throw new CouchException($"Can`t create view {db}/_design/{design.Name} : {response.Reason}");
+        throw new CouchException($"Can`t create view {db}/_design/{couchDesign.Name} : {response.Reason}");
       }
 
-      return new EntityInfo { ETag = response.ETag, Id = response.EntityId };
+      return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
-    public async Task<DesignDocument> CreateView(string db, string designName, ViewDefinition view)
+    public async Task<CouchDesignDocument> CreateView(string db, string designName, CouchViewDefinition couchView)
     {
-      if (view == null)
+      if (couchView == null)
       {
-        throw new ArgumentNullException(nameof(view));
+        throw new ArgumentNullException(nameof(couchView));
       }
       var design = await GetDesign(db, designName);
-      if (design.Views.Any(p => p.Name == view.Name))
+      if (design.Views.Any(p => p.Name == couchView.Name))
       {
-        throw new CouchException($"Can`t create view {db}/_design/{designName}/{view.Name} : View with the same name already exists in document.");
+        throw new CouchException($"Can`t create view {db}/_design/{designName}/{couchView.Name} : View with the same name already exists in document.");
       }
 
-      design.Views = new List<ViewDefinition>(design.Views) { view };
+      design.Views = new List<CouchViewDefinition>(design.Views) { couchView };
       await PutDesign(db, design);
 
       return design;
@@ -189,23 +189,23 @@ namespace Kanapa
       return this;
     }
 
-    public async Task<EntityInfo> PutView(string db, string designName, ViewDefinition view)
+    public async Task<CouchEntityInfo> PutView(string db, string designName, CouchViewDefinition couchView)
     {
-      if (view == null)
+      if (couchView == null)
       {
-        throw new ArgumentNullException(nameof(view));
+        throw new ArgumentNullException(nameof(couchView));
       }
       var design = await GetDesign(db, designName);
-      var index = design.Views.FirstOrDefault(p => p.Name == view.Name);
+      var index = design.Views.FirstOrDefault(p => p.Name == couchView.Name);
       if (index == null)
       {
-        throw new CouchException($"Can`t update view {db}/_design/{designName}/{view.Name} : View not found.");
+        throw new CouchException($"Can`t update view {db}/_design/{designName}/{couchView.Name} : View not found.");
       }
-      index.Mapping = view.Mapping;
+      index.Mapping = couchView.Mapping;
       return await PutDesign(db, design);
     }
 
-    public async Task<EntityInfo> Put<T>(string db, string documentId, T item)
+    public async Task<CouchEntityInfo> Put<T>(string db, string documentId, T item)
     {
       Response response;
       try
@@ -222,7 +222,7 @@ namespace Kanapa
         throw new CouchException($"Can`t update document {documentId} : {response.Reason}");
       }
 
-      return new EntityInfo { ETag = response.ETag, Id = response.EntityId };
+      return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
     public async Task<CouchClient> CreateDatabase(string db)
@@ -263,13 +263,13 @@ namespace Kanapa
       return this;
     }
 
-    public async Task<View<T>> CreateAndQueryTemporaryView<T>(string db, MapReduce mapReduce, string fromKey = null, string toKey = null)
+    public async Task<CouchView<T>> CreateAndQueryTemporaryView<T>(string db, CouchMapReduce couchMapReduce, string fromKey = null, string toKey = null)
     {
       try
       {
         var url = $"{_host}/{db}/_temp_view" + GetKeysPart(fromKey, toKey);
-        var result = await RequestDatabase(url, "POST", JsonConvert.SerializeObject(mapReduce), "application/json");
-        return JsonConvert.DeserializeObject<View<T>>(result);
+        var result = await RequestDatabase(url, "POST", JsonConvert.SerializeObject(couchMapReduce), "application/json");
+        return JsonConvert.DeserializeObject<CouchView<T>>(result);
       }
       catch (Exception e)
       {
@@ -277,13 +277,13 @@ namespace Kanapa
       }
     }
 
-    public async Task<View<T>> QueryView<T>(string db, string designName, string viewName, string fromKey = null, string toKey = null)
+    public async Task<CouchView<T>> QueryView<T>(string db, string designName, string viewName, string fromKey = null, string toKey = null)
     {
       try
       {
         var url = $"{_host}/{db}/_design/{designName}/_view/{viewName}" + GetKeysPart(fromKey, toKey);
         var result = await RequestDatabase(url, "GET");
-        return JsonConvert.DeserializeObject<View<T>>(result);
+        return JsonConvert.DeserializeObject<CouchView<T>>(result);
       }
       catch (Exception e)
       {
@@ -291,7 +291,7 @@ namespace Kanapa
       }
     }
 
-    public async Task<EntityInfo> Create<T>(string db, T content)
+    public async Task<CouchEntityInfo> Create<T>(string db, T content)
     {
       Response response;
       try
@@ -308,7 +308,7 @@ namespace Kanapa
         throw new CouchException($"Can`t create entity: {response.Reason}");
       }
 
-      return new EntityInfo { ETag = response.ETag, Id = response.EntityId };
+      return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
     public async Task<T> Get<T>(string db, string documentId)
@@ -379,9 +379,9 @@ namespace Kanapa
           {
             request.Content = new StringContent(data, Encoding.UTF8, contentType);
           }
-          if (_authenticationInterceptor != null)
+          if (_couchAuthenticationInterceptor != null)
           {
-            foreach (var header in _authenticationInterceptor.Authenticate(_host))
+            foreach (var header in _couchAuthenticationInterceptor.Authenticate(_host))
             {
               request.Headers.Add(header.Name,header.Value);
             }
@@ -394,7 +394,7 @@ namespace Kanapa
               throw new CouchException("Authentication interceptor failed to authenticate application.");
             }
 
-            if (_authenticationInterceptor == null)
+            if (_couchAuthenticationInterceptor == null)
             {
               throw new CouchException("Authentication interceptor is not set, but server requires authentication.");
             }
@@ -434,9 +434,9 @@ namespace Kanapa
         }
       }
     
-      if(_authenticationInterceptor != null)
+      if(_couchAuthenticationInterceptor != null)
       {
-        foreach (var header in _authenticationInterceptor.Authenticate(_host))
+        foreach (var header in _couchAuthenticationInterceptor.Authenticate(_host))
         {
           req.Headers[header.Name] = header.Value;
         }
@@ -473,7 +473,7 @@ namespace Kanapa
           throw new CouchException("Response status code does not indicate success or exception occured.", e);
         }
        
-        if (_authenticationInterceptor == null)
+        if (_couchAuthenticationInterceptor == null)
         {
           throw new CouchException("Authentication interceptor is not set, but server requires authentication.", e);
         }

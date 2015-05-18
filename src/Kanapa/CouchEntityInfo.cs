@@ -1,6 +1,6 @@
 namespace Kanapa
 {
-  public class EntityInfo
+  public class CouchEntityInfo
   {
     public string Id { get; set; }
     public string ETag  { get; set; }

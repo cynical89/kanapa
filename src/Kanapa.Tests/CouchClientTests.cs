@@ -126,7 +126,7 @@ namespace Kanapa.Tests
             Value = i
           });
         }
-        var mapReduce = new MapReduce
+        var mapReduce = new CouchMapReduce
         {
           Map = $"function(doc) {{ if(doc.Value > {greaterThen}) {{ emit(doc.Name, doc); }} }}"
         };
@@ -152,7 +152,7 @@ namespace Kanapa.Tests
           Value = i
         });
       }
-      var mapReduce = new MapReduce
+      var mapReduce = new CouchMapReduce
       {
         Map = $"function(doc) {{ if(doc.Value > {greaterThen}) {{ emit(doc.Name, doc); }} }}"
       };
@@ -160,7 +160,7 @@ namespace Kanapa.Tests
       const string viewName = "greater_view";
       await client.CreateDesign(dbName, designName, new[]
       {
-        new ViewDefinition
+        new CouchViewDefinition
         {
           Mapping = mapReduce,
           Name = viewName
@@ -282,32 +282,32 @@ namespace Kanapa.Tests
           AdditionalData = "designDocument",
           Items = new[]
           {
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view0",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Map = "function(doc) { emit(doc.Id);}",
                 Reduce = "function (key, values, rereduce) { return count(values); }"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view1",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Map =  "function(doc) { emit(doc.Id);}"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view2",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Reduce = "function (key, values, rereduce) { return count(values); }"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view3"
             }

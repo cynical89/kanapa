@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Kanapa
 {
-  public class MapReduce
+  public class CouchMapReduce
   {
     [JsonProperty("map", NullValueHandling = NullValueHandling.Ignore)]
     public string Map { get; set; }

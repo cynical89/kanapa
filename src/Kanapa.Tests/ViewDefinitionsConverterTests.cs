@@ -12,7 +12,7 @@ namespace Kanapa.Tests
   {
     [Fact]
     public void Converter_CanConvert_ReturnsTrueForCorrectData() =>
-      Assert.True(GetConverter().CanConvert(typeof(List<ViewDefinition>)));
+      Assert.True(GetConverter().CanConvert(typeof(List<CouchViewDefinition>)));
 
     [Fact]
     public void Converter_CanConvert_ReturnsFalseForIncorrectData() =>
@@ -34,7 +34,7 @@ namespace Kanapa.Tests
     public void Converter_ReadJson_Correct(string json, int viewCount)
     {
       var converter = GetConverter();
-      IEnumerable<ViewDefinition> @object;
+      IEnumerable<CouchViewDefinition> @object;
       using (var ms = new MemoryStream())
       {
         var bytes = Encoding.UTF8.GetBytes(json);
@@ -44,7 +44,7 @@ namespace Kanapa.Tests
         {
           using (var jsonTextReader = new JsonTextReader(reader))
           {
-            @object = (IEnumerable<ViewDefinition>)converter.ReadJson(jsonTextReader, null, null, null);
+            @object = (IEnumerable<CouchViewDefinition>)converter.ReadJson(jsonTextReader, null, null, null);
           }
         }
       }
@@ -84,32 +84,32 @@ namespace Kanapa.Tests
           AdditionalData = "{\"view0\":{\"map\":\"map0\",\"reduce\":\"reduce0\"},\"view1\":{\"map\":\"map1\"},\"view2\":{\"reduce\":\"reduce2\"},\"view3\":{}}",
           Items = new[]
           {
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view0",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Map = "map0",
                 Reduce = "reduce0"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view1",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Map = "map1"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view2",
-              Mapping = new MapReduce
+              Mapping = new CouchMapReduce
               {
                 Reduce = "reduce2"
               }
             },
-            new ViewDefinition
+            new CouchViewDefinition
             {
               Name = "view3"
             }
@@ -119,6 +119,6 @@ namespace Kanapa.Tests
       })
     };
 
-    private static ViewDefinitionsConverter GetConverter() => new ViewDefinitionsConverter();
+    private static CouchViewDefinitionsConverter GetConverter() => new CouchViewDefinitionsConverter();
   }
 }

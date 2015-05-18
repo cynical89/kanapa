@@ -2,7 +2,7 @@
 
 namespace Kanapa
 {
-  public class DatabaseMetadata
+  public class CouchDatabaseMetadata
   {
     [JsonProperty("committed_update_seq")]
     public long CommitedUpdateNumber { get; set; }

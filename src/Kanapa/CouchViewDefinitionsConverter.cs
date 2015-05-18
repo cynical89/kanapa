@@ -9,11 +9,11 @@ using System.Reflection;
 
 namespace Kanapa
 {
-  public class ViewDefinitionsConverter : JsonConverter
+  public sealed class CouchViewDefinitionsConverter : JsonConverter
   {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-      var @object = (IEnumerable<ViewDefinition>) value;
+      var @object = (IEnumerable<CouchViewDefinition>) value;
       writer.WriteStartObject();
       foreach (var item in @object)
       {
@@ -43,10 +43,10 @@ namespace Kanapa
       return (from item in obj.Properties()
               let name = item.Name
               let @object = obj[item.Name]
-              select new ViewDefinition
+              select new CouchViewDefinition
               {
                 Name = name,
-                Mapping = new MapReduce
+                Mapping = new CouchMapReduce
                 {
                   Map = @object["map"]?.Value<string>(),
                   Reduce = @object["reduce"]?.Value<string>()
@@ -59,10 +59,10 @@ namespace Kanapa
     {
 #if DNXCORE50
       var typeInfo = objectType.GetTypeInfo();
-      var baseType = typeof(IEnumerable<ViewDefinition>).GetTypeInfo();
+      var baseType = typeof(IEnumerable<CouchViewDefinition>).GetTypeInfo();
       return baseType.IsAssignableFrom(typeInfo);
 #else
-      return typeof(IEnumerable<ViewDefinition>).IsAssignableFrom(objectType);
+      return typeof(IEnumerable<CouchViewDefinition>).IsAssignableFrom(objectType);
 #endif
     }
   }

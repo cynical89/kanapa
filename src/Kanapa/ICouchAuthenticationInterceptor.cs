@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Kanapa
 {
-  public interface IAuthenticationInterceptor
+  public interface ICouchAuthenticationInterceptor
   {
     IEnumerable<ICouchHeader> Authenticate(string host);
   }

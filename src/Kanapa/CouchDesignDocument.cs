@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Kanapa
 {
-  public class DesignDocument
+  public class CouchDesignDocument
   {
     [JsonIgnore]
     public string Name => Id.Substring(Id.IndexOf('/') + 1);
@@ -13,8 +13,8 @@ namespace Kanapa
     public string Language { get; set; }
     [JsonProperty("_rev", NullValueHandling = NullValueHandling.Ignore)]
     public string Revision { get; set; }
-    [JsonConverter(typeof(ViewDefinitionsConverter)), JsonProperty("views")]
-    public IEnumerable<ViewDefinition> Views { get; set; }
+    [JsonConverter(typeof(CouchViewDefinitionsConverter)), JsonProperty("views")]
+    public IEnumerable<CouchViewDefinition> Views { get; set; }
     [JsonIgnore]
     internal bool IgnoreRevisionAndId { get; set; }
 

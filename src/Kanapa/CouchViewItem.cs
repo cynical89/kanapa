@@ -2,7 +2,7 @@
 
 namespace Kanapa
 {
-  public class ViewItem<T>
+  public class CouchViewItem<T>
   {
     [JsonProperty("id")]
     public string Id { get; set; }

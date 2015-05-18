@@ -2,13 +2,13 @@
 
 namespace Kanapa
 {
-  public class View<T>
+  public class CouchView<T>
   {
     [JsonProperty("total_rows")]
     public long TotalCount { get; set; }
     [JsonProperty("offset")]
     public long Offset { get; set; }
     [JsonProperty("rows")]
-    public ViewItem<T>[] Rows { get; set; }
+    public CouchViewItem<T>[] Rows { get; set; }
   }
 }

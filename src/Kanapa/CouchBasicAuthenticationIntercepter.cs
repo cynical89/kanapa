@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kanapa
 {
-  public sealed class CouchBasicAuthenticationIntercepter : IAuthenticationInterceptor
+  public sealed class CouchBasicAuthenticationIntercepter : ICouchAuthenticationInterceptor
   {
     private readonly string _host;
     private readonly IEqualityComparer<string> _hostEqualityComparer;
@@ -14,7 +14,7 @@ namespace Kanapa
     {
       if (hostEqualityComparer == null)
       {
-        hostEqualityComparer = new DefaultHostEqualityComparer();
+        hostEqualityComparer = new CouchDefaultHostEqualityComparer();
       }
       _host = host;
       _hostEqualityComparer = hostEqualityComparer;

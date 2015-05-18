@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kanapa
 {
-  public sealed class DefaultHostEqualityComparer :IEqualityComparer<string>
+  public sealed class CouchDefaultHostEqualityComparer :IEqualityComparer<string>
   {
     public bool Equals(string x, string y)
     {
