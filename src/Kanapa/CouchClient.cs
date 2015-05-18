@@ -16,7 +16,7 @@ using System.IO;
 
 namespace Kanapa
 {
-  public class CouchClient
+  public class CouchClient : ICouchClient
   {
     private readonly string _host;
     private readonly IUrlEncoder _urlEncoder;
