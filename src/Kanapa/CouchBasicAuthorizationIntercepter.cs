@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Kanapa
 {
-  public sealed class CouchBasicAuthenticationIntercepter : ICouchAuthenticationInterceptor
+  public sealed class CouchBasicAuthorizationIntercepter : ICouchAuthorizationInterceptor
   {
     private readonly string _host;
     private readonly IEqualityComparer<string> _hostEqualityComparer;
     private readonly ICouchHeader[] _header;
 
-    public CouchBasicAuthenticationIntercepter(string host, string userName, string password, IEqualityComparer<string> hostEqualityComparer)
+    public CouchBasicAuthorizationIntercepter(string host, string userName, string password, IEqualityComparer<string> hostEqualityComparer)
     {
       if (hostEqualityComparer == null)
       {
@@ -21,7 +21,7 @@ namespace Kanapa
       _header = new ICouchHeader[] {new DefaultCouchHeader("Authorization", $"Basic "+ Convert.ToBase64String(Encoding.UTF8.GetBytes(userName + ":" + password)))};
     }
 
-    public IEnumerable<ICouchHeader> Authenticate(string host)
+    public IEnumerable<ICouchHeader> ProvideHeaders(string host)
     {
       if (_hostEqualityComparer.Equals(host, _host))
       {
@@ -29,6 +29,16 @@ namespace Kanapa
       }
 
       throw new CouchException($"Unknown host, to authenticate {host}. Only {_host} can be authenticated.");
+    }
+
+    public bool PerformAuthorization(string host)
+    {
+      if (_hostEqualityComparer.Equals(host, host))
+      {
+        throw new CouchException($"Cannot authenticate host {_host}. Provided credentials are wrong.");
+      }
+
+      return false;
     }
   }
 }

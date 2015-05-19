@@ -21,13 +21,13 @@ namespace Kanapa
   {
     private readonly string _host;
     private readonly IUrlEncoder _urlEncoder;
-    private readonly ICouchAuthenticationInterceptor _couchAuthenticationInterceptor;
+    private readonly ICouchAuthorizationInterceptor _couchAuthorizationInterceptor;
 
-    public CouchClient(string host, IUrlEncoder urlEncoder, ICouchAuthenticationInterceptor couchAuthenticationInterceptor = null)
+    public CouchClient(string host, IUrlEncoder urlEncoder, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
     {
       _host = host.EndsWith("/") ? host.Substring(0, host.Length - 1) : host;
       _urlEncoder = urlEncoder;
-      _couchAuthenticationInterceptor = couchAuthenticationInterceptor;
+      _couchAuthorizationInterceptor = couchAuthorizationInterceptor;
     }
 
     public async Task<IEnumerable<string>> GetDatabaseNames()
@@ -379,9 +379,9 @@ namespace Kanapa
           {
             request.Content = new StringContent(data, Encoding.UTF8, contentType);
           }
-          if (_couchAuthenticationInterceptor != null)
+          if (_couchAuthorizationInterceptor != null)
           {
-            foreach (var header in _couchAuthenticationInterceptor.Authenticate(_host))
+            foreach (var header in _couchAuthorizationInterceptor.ProvideHeaders(_host))
             {
               request.Headers.Add(header.Name,header.Value);
             }
@@ -394,9 +394,14 @@ namespace Kanapa
               throw new CouchException("Authentication interceptor failed to authenticate application.");
             }
 
-            if (_couchAuthenticationInterceptor == null)
+            if (_couchAuthorizationInterceptor == null)
             {
               throw new CouchException("Authentication interceptor is not set, but server requires authentication.");
+            }
+
+            if(_couchAuthorizationInterceptor.PerformAuthorization(_host) == false)
+            {
+              throw new CouchException($"Authentication interceptor failed to authenticate host {_host}");
             }
 
             return await DnxCoreImplementation(url, method, data, contentType, ++deep);
@@ -434,9 +439,9 @@ namespace Kanapa
         }
       }
     
-      if(_couchAuthenticationInterceptor != null)
+      if(_couchAuthorizationInterceptor != null)
       {
-        foreach (var header in _couchAuthenticationInterceptor.Authenticate(_host))
+        foreach (var header in _couchAuthorizationInterceptor.ProvideHeaders(_host))
         {
           req.Headers[header.Name] = header.Value;
         }
@@ -473,9 +478,14 @@ namespace Kanapa
           throw new CouchException("Response status code does not indicate success or exception occured.", e);
         }
        
-        if (_couchAuthenticationInterceptor == null)
+        if (_couchAuthorizationInterceptor == null)
         {
           throw new CouchException("Authentication interceptor is not set, but server requires authentication.", e);
+        }
+
+        if (_couchAuthorizationInterceptor.PerformAuthorization(_host) == false)
+        {
+          throw new CouchException($"Authentication interceptor failed to authenticate host {_host}");
         }
 
         return await Dnx451Implementation(url,method,data,contentType,++deep);
