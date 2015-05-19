@@ -11,7 +11,7 @@
       "System.Linq >= 4.0.0-beta-22816",
       "System.Threading >= 4.0.10-beta-22816",
       "Microsoft.CSharp >= 4.0.0-beta-22816",
-      "Microsoft.Framework.WebEncoders >= 1.0.0-beta4-11362"
+      "Microsoft.Framework.WebEncoders >= 1.0.0-beta4"
     ]
   },
   "libraries": {
@@ -55,14 +55,14 @@
         "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/Microsoft.CSharp.dll"
       ]
     },
-    "Microsoft.Framework.ConfigurationModel/1.0.0-beta4-11213": {
+    "Microsoft.Framework.ConfigurationModel/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "2WCiMYgvdyJMSXWzZydEc73pr1MtS+IgAnmv4wHL6/OFHzcbVVQuN2nc8hXsZEXk+v6wmb+sgf6xfYN3BaVG8g==",
+      "sha": "VD5MhmQRhYVfxyDs1fyruPTj3pYwLMV5dXJkPUVg1KKbJ9qr/tEn3frJA1NN1jdeVBt1RrW5FXr+wWG9YoO9Yg==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
-            "Microsoft.Framework.ConfigurationModel.Interfaces": "1.0.0-beta4-11213",
-            "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4-11566"
+            "Microsoft.Framework.ConfigurationModel.Interfaces": "1.0.0-beta4",
+            "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4"
           },
           "frameworkAssemblies": [
             "mscorlib",
@@ -79,7 +79,7 @@
         },
         "DNXCore,Version=v5.0": {
           "dependencies": {
-            "Microsoft.Framework.ConfigurationModel.Interfaces": "1.0.0-beta4-11213",
+            "Microsoft.Framework.ConfigurationModel.Interfaces": "1.0.0-beta4",
             "System.Collections": "4.0.10-beta-22816",
             "System.Diagnostics.Debug": "4.0.10-beta-22816",
             "System.IO.FileSystem": "4.0.0-beta-22816",
@@ -87,7 +87,7 @@
             "System.Resources.ResourceManager": "4.0.0-beta-22816",
             "System.Runtime.Extensions": "4.0.10-beta-22816",
             "System.Runtime.InteropServices": "4.0.20-beta-22816",
-            "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4-11566"
+            "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4"
           },
           "frameworkAssemblies": [],
           "runtimeAssemblies": [
@@ -99,8 +99,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.ConfigurationModel.1.0.0-beta4-11213.nupkg",
-        "Microsoft.Framework.ConfigurationModel.1.0.0-beta4-11213.nupkg.sha512",
+        "Microsoft.Framework.ConfigurationModel.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.ConfigurationModel.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.ConfigurationModel.nuspec",
         "lib/dnx451/Microsoft.Framework.ConfigurationModel.dll",
         "lib/dnx451/Microsoft.Framework.ConfigurationModel.xml",
@@ -112,9 +112,9 @@
         "lib/portable-net451+win81+wpa81/Microsoft.Framework.ConfigurationModel.xml"
       ]
     },
-    "Microsoft.Framework.ConfigurationModel.Interfaces/1.0.0-beta4-11213": {
+    "Microsoft.Framework.ConfigurationModel.Interfaces/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "ououJ6hcn6vl1/sptUmpuVHtwBf5TZ4rmxAsesdzn4c6dfoAYTz0WAgLhmzXDff8lvh6gaS/hO6qqSuz260iWA==",
+      "sha": "lU9+gyEz+jSeR+QsZxZtDf0U2DS/pl3I8/m7YeKjHMnjqoxUKFbSOpzegll7bhq0Alw7/8gF2Byrcy+PlzRc/g==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -151,8 +151,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.ConfigurationModel.Interfaces.1.0.0-beta4-11213.nupkg",
-        "Microsoft.Framework.ConfigurationModel.Interfaces.1.0.0-beta4-11213.nupkg.sha512",
+        "Microsoft.Framework.ConfigurationModel.Interfaces.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.ConfigurationModel.Interfaces.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.ConfigurationModel.Interfaces.nuspec",
         "lib/dnx451/Microsoft.Framework.ConfigurationModel.Interfaces.dll",
         "lib/dnx451/Microsoft.Framework.ConfigurationModel.Interfaces.xml",
@@ -164,9 +164,9 @@
         "lib/portable-net451+win81+wpa81/Microsoft.Framework.ConfigurationModel.Interfaces.xml"
       ]
     },
-    "Microsoft.Framework.DependencyInjection.Interfaces/1.0.0-beta4-11242": {
+    "Microsoft.Framework.DependencyInjection.Interfaces/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "dQnK8a7SCZaCzf9kpGcxY7s3E3kFNA3JrIwJSNtYQWKWuyWembkBoTbooq/fPZ87vByy9g6DdMO3uTaOD8I1sw==",
+      "sha": "qbBGymgVdlrJZhJFg+35JaA0Tp8DYeFrDwv1Q3Di9hRWLZ3rAE7bvsnP+fmuo0XGlZDVXfGjINvtryFPyoQ58g==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -203,8 +203,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.DependencyInjection.Interfaces.1.0.0-beta4-11242.nupkg",
-        "Microsoft.Framework.DependencyInjection.Interfaces.1.0.0-beta4-11242.nupkg.sha512",
+        "Microsoft.Framework.DependencyInjection.Interfaces.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.DependencyInjection.Interfaces.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.DependencyInjection.Interfaces.nuspec",
         "lib/dnx451/Microsoft.Framework.DependencyInjection.Interfaces.dll",
         "lib/dnx451/Microsoft.Framework.DependencyInjection.Interfaces.xml",
@@ -216,14 +216,14 @@
         "lib/portable-net451+win81+wpa81/Microsoft.Framework.DependencyInjection.Interfaces.xml"
       ]
     },
-    "Microsoft.Framework.OptionsModel/1.0.0-beta4-11216": {
+    "Microsoft.Framework.OptionsModel/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "2dqyPdIgs2jGOZlZ6gEOAbeBrq2ZDx/8kS5XvR9sWb1Ddf9/9y401ImTuIgTwKRPhyC74zMG+3Id4atl0qmAlw==",
+      "sha": "xjr084yTcmBLI8F3gb+hIEhf+ttanmbCWl54GkMhSH/dU1bqbR2Ts6Ks51kwUaACfNEDNY9zRwblT4of51lA6w==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
-            "Microsoft.Framework.ConfigurationModel": "1.0.0-beta4-11213",
-            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4-11242"
+            "Microsoft.Framework.ConfigurationModel": "1.0.0-beta4",
+            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4"
           },
           "frameworkAssemblies": [
             "mscorlib",
@@ -240,8 +240,8 @@
         },
         "DNXCore,Version=v5.0": {
           "dependencies": {
-            "Microsoft.Framework.ConfigurationModel": "1.0.0-beta4-11213",
-            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4-11242",
+            "Microsoft.Framework.ConfigurationModel": "1.0.0-beta4",
+            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4",
             "System.ComponentModel": "4.0.0-beta-22816",
             "System.Reflection.TypeExtensions": "4.0.0-beta-22816",
             "System.Threading": "4.0.10-beta-22816"
@@ -256,8 +256,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.OptionsModel.1.0.0-beta4-11216.nupkg",
-        "Microsoft.Framework.OptionsModel.1.0.0-beta4-11216.nupkg.sha512",
+        "Microsoft.Framework.OptionsModel.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.OptionsModel.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.OptionsModel.nuspec",
         "lib/dnx451/Microsoft.Framework.OptionsModel.dll",
         "lib/dnx451/Microsoft.Framework.OptionsModel.xml",
@@ -269,9 +269,9 @@
         "lib/portable-net451+win81+wpa81/Microsoft.Framework.OptionsModel.xml"
       ]
     },
-    "Microsoft.Framework.Runtime.Interfaces/1.0.0-beta4-11566": {
+    "Microsoft.Framework.Runtime.Interfaces/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "9iX4CSnW1MYIGzD2hvRC30nkyRtG+asl/2XV4DRzhr1FfGPIarYmTt0Q21dnUxeHIb+U566HFJLhsruwQZOnNQ==",
+      "sha": "RrZdqvUm8QbgxnZQuafYGo6NezoKx7VqAfAtHVzoKBm3GSV8xlPh90u1fsGhNCv37xJNk5PuRCa4Mq27ko7pLw==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -307,8 +307,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.Runtime.Interfaces.1.0.0-beta4-11566.nupkg",
-        "Microsoft.Framework.Runtime.Interfaces.1.0.0-beta4-11566.nupkg.sha512",
+        "Microsoft.Framework.Runtime.Interfaces.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.Runtime.Interfaces.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.Runtime.Interfaces.nuspec",
         "lib/dnx451/Microsoft.Framework.Runtime.Interfaces.dll",
         "lib/dnx451/Microsoft.Framework.Runtime.Interfaces.xml",
@@ -316,15 +316,15 @@
         "lib/dnxcore50/Microsoft.Framework.Runtime.Interfaces.xml"
       ]
     },
-    "Microsoft.Framework.WebEncoders/1.0.0-beta4-11362": {
+    "Microsoft.Framework.WebEncoders/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "4uS0S/K9pExZ8NBoY/ZwcB8s28+wn+6lzwl77x2032sDNmdXe+cdn7L+eoMcN/TmvL8uztj8kLFEMAL2Fis5SQ==",
+      "sha": "DCRv9DtaZB46YXhq4hRHCVsnGN9ESZgTQTaHNJNy+g04nFe2YpB65CPBavtmtF9xNR31jQoVamBJtduNrc9Jhw==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {
-            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4-11242",
-            "Microsoft.Framework.OptionsModel": "1.0.0-beta4-11216",
-            "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta4-11362"
+            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4",
+            "Microsoft.Framework.OptionsModel": "1.0.0-beta4",
+            "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta4"
           },
           "frameworkAssemblies": [
             "mscorlib",
@@ -341,9 +341,9 @@
         },
         "DNXCore,Version=v5.0": {
           "dependencies": {
-            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4-11242",
-            "Microsoft.Framework.OptionsModel": "1.0.0-beta4-11216",
-            "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta4-11362"
+            "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-beta4",
+            "Microsoft.Framework.OptionsModel": "1.0.0-beta4",
+            "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta4"
           },
           "frameworkAssemblies": [],
           "runtimeAssemblies": [
@@ -355,8 +355,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.WebEncoders.1.0.0-beta4-11362.nupkg",
-        "Microsoft.Framework.WebEncoders.1.0.0-beta4-11362.nupkg.sha512",
+        "Microsoft.Framework.WebEncoders.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.WebEncoders.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.WebEncoders.nuspec",
         "lib/dnx451/Microsoft.Framework.WebEncoders.dll",
         "lib/dnx451/Microsoft.Framework.WebEncoders.xml",
@@ -366,9 +366,9 @@
         "lib/net45/Microsoft.Framework.WebEncoders.xml"
       ]
     },
-    "Microsoft.Framework.WebEncoders.Core/1.0.0-beta4-11362": {
+    "Microsoft.Framework.WebEncoders.Core/1.0.0-beta4": {
       "serviceable": true,
-      "sha": "ocR62oK/uYOLtMYtxs+SPeM9PYslt3xV5Rf4zEKKT5sr6NB4Qbjsj2jt3XlYx6kWQF2fs21RhznqJebesBRFzA==",
+      "sha": "pJqTs8EUFMcQmkEVYKZiN0hDk5IpHHVasesEa/hgD99a+uENKc7oSOnKbJ+PypatsBTkj/IzuxybJUCKlBLiew==",
       "frameworks": {
         "DNX,Version=v4.5.1": {
           "dependencies": {},
@@ -404,8 +404,8 @@
         }
       },
       "files": [
-        "Microsoft.Framework.WebEncoders.Core.1.0.0-beta4-11362.nupkg",
-        "Microsoft.Framework.WebEncoders.Core.1.0.0-beta4-11362.nupkg.sha512",
+        "Microsoft.Framework.WebEncoders.Core.1.0.0-beta4.nupkg",
+        "Microsoft.Framework.WebEncoders.Core.1.0.0-beta4.nupkg.sha512",
         "Microsoft.Framework.WebEncoders.Core.nuspec",
         "lib/dnx451/Microsoft.Framework.WebEncoders.Core.dll",
         "lib/dnx451/Microsoft.Framework.WebEncoders.Core.xml",
