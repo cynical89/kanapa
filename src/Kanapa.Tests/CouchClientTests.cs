@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Framework.WebEncoders;
 using Kanapa.Tests.Misc;
 using Xunit;
 
@@ -12,13 +11,11 @@ namespace Kanapa.Tests
   public class CouchClientTests : IDisposable
   {
     private readonly string _hostName;
-    private readonly IUrlEncoder _urlEncoder;
     private readonly IList<string> _list;
 
     public CouchClientTests()
     {
       _hostName = "http://couch:5984";
-      _urlEncoder = new UrlEncoder();
       _list = new List<string>();
     }
 
@@ -271,7 +268,7 @@ namespace Kanapa.Tests
       return name;
     }
 
-    private CouchClient CreateClient() => new CouchClient(new Uri(_hostName), _urlEncoder);
+    private CouchClient CreateClient() => new CouchClient(new Uri(_hostName));
 
     public static IEnumerable<object[]> TestCasesWithViews => new[]
     {

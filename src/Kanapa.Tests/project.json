@@ -6,12 +6,10 @@
     "dnx451": {
       "dependencies": {
         "Microsoft.Framework.OptionsModel": "1.0.0-beta4",
-        "Microsoft.Framework.Runtime.Interfaces": "1.0.0-beta4",
         "xunit.runner.aspnet": "2.0.0-aspnet-beta4-10266",
         "Moq": "4.2.1312.1622",
         "System.Collections": "4.0.10-beta-22816",
         "Kanapa": "1.0.0-*",
-        "Microsoft.Framework.WebEncoders": "1.0.0-beta4",
         "xunit": "2.0.0-beta4-build2738"
       }
     },
@@ -23,7 +21,6 @@
         "System.Collections": "4.0.10-beta-22816",
         "Moq": "4.2.1312.1622",
         "Kanapa": "1.0.0-*",
-        "Microsoft.Framework.WebEncoders": "1.0.0-beta4",
         "xunit": "2.0.0-beta4-build2738"
       }
     }

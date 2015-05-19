@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kanapa
+namespace Kanapa.Auth
 {
   public sealed class CouchBasicAuthorizationIntercepter : CouchAuthorizationInterceptorBase
   {

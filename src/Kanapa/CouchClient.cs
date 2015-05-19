@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Linq;
 using System.Net;
-using Microsoft.Framework.WebEncoders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,13 +19,11 @@ namespace Kanapa
   public class CouchClient : ICouchClient
   {
     private readonly Uri _host;
-    private readonly IUrlEncoder _urlEncoder;
     private readonly ICouchAuthorizationInterceptor _couchAuthorizationInterceptor;
 
-    public CouchClient(Uri host, IUrlEncoder urlEncoder, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
+    public CouchClient(Uri host, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
     {
       _host = new Uri(host, "/");
-      _urlEncoder = urlEncoder;
       _couchAuthorizationInterceptor = couchAuthorizationInterceptor;
     }
 
@@ -339,18 +336,18 @@ namespace Kanapa
       return this;
     }
 
-    private string GetKeysPart(string fromKey, string toKey)
+    private static string GetKeysPart(string fromKey, string toKey)
     {
       var urlPart = string.Empty;
       var fromKeyIsNull = string.IsNullOrEmpty(fromKey);
       if (fromKeyIsNull == false)
       {
-        urlPart += "?startkey=" + _urlEncoder.UrlEncode(fromKey);
+        urlPart += "?startkey=" + fromKey;
       }
 
       if (string.IsNullOrEmpty(toKey) == false)
       {
-        urlPart += (fromKeyIsNull ? "?" : "&") + "endkey" + _urlEncoder.UrlEncode(toKey);
+        urlPart += (fromKeyIsNull ? "?" : "&") + "endkey" + toKey;
       }
 
       return urlPart;

@@ -1,4 +1,4 @@
-namespace Kanapa
+namespace Kanapa.Auth
 {
   public sealed class DefaultCouchHeader : ICouchHeader
   {

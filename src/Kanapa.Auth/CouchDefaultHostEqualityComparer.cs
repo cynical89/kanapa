@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Kanapa
+namespace Kanapa.Auth
 {
   public sealed class CouchDefaultHostEqualityComparer :IEqualityComparer<Uri>
   {
