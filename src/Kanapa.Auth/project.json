@@ -1,5 +1,5 @@
 {
-   "version": "1.0.0-beta4-6",
+  "version": "1.0.0-beta4-1",
   "description": "CouchDb Client for DNX runtime",
   "authors": [ "Uladzimir Harabtsou" ],
   "tags": [ "vnext", "dnx", "couchdb" ],
