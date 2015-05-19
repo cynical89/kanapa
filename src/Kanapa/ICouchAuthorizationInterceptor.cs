@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 
 namespace Kanapa
 {
   public interface ICouchAuthorizationInterceptor
   {
-    IEnumerable<ICouchHeader> ProvideHeaders(string host);
+    IEnumerable<ICouchHeader> ProvideHeaders(Uri host);
 
-    bool PerformAuthorization(string host);
+    bool PerformAuthorization(Uri host);
   }
 }

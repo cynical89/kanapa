@@ -271,7 +271,7 @@ namespace Kanapa.Tests
       return name;
     }
 
-    private CouchClient CreateClient() => new CouchClient(_hostName, _urlEncoder);
+    private CouchClient CreateClient() => new CouchClient(new Uri(_hostName), _urlEncoder);
 
     public static IEnumerable<object[]> TestCasesWithViews => new[]
     {

@@ -19,13 +19,13 @@ namespace Kanapa
 {
   public class CouchClient : ICouchClient
   {
-    private readonly string _host;
+    private readonly Uri _host;
     private readonly IUrlEncoder _urlEncoder;
     private readonly ICouchAuthorizationInterceptor _couchAuthorizationInterceptor;
 
-    public CouchClient(string host, IUrlEncoder urlEncoder, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
+    public CouchClient(Uri host, IUrlEncoder urlEncoder, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
     {
-      _host = host.EndsWith("/") ? host.Substring(0, host.Length - 1) : host;
+      _host = new Uri(host, "/");
       _urlEncoder = urlEncoder;
       _couchAuthorizationInterceptor = couchAuthorizationInterceptor;
     }
@@ -34,7 +34,7 @@ namespace Kanapa
     {
       try
       {
-        return JsonConvert.DeserializeObject<string[]>(await RequestDatabase($"{_host}/_all_dbs", "GET"));
+        return JsonConvert.DeserializeObject<string[]>(await RequestDatabase(new Uri(_host,"_all_dbs"), "GET"));
       }
       catch (Exception e)
       {
@@ -46,7 +46,7 @@ namespace Kanapa
     {
       try
       {
-        return JsonConvert.DeserializeObject<CouchDatabaseMetadata>(await RequestDatabase($"{_host}/{db}/", "GET"));
+        return JsonConvert.DeserializeObject<CouchDatabaseMetadata>(await RequestDatabase(new Uri(_host, db), "GET"));
       }
       catch (Exception e)
       {
@@ -58,7 +58,7 @@ namespace Kanapa
     {
       try
       {
-        var result = await RequestDatabase($"{_host}/{db}/_all_docs" + GetKeysPart(fromKey, toKey), "GET");
+        var result = await RequestDatabase(new Uri(_host,$"/{db}/_all_docs" + GetKeysPart(fromKey, toKey)), "GET");
 
         var d = JObject.Parse(result);
 
@@ -87,7 +87,7 @@ namespace Kanapa
         };
 
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}", "POST",
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host,db), "POST",
             JsonConvert.SerializeObject(design), "application/json"));
       }
       catch (Exception e)
@@ -108,7 +108,7 @@ namespace Kanapa
       Response response;
       try
       {
-        response = JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/_design/{name}?rev={etag}", "DELETE"));
+        response = JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host,$"{db}/_design/{name}?rev={etag}"), "DELETE"));
       }
       catch (Exception e)
       {
@@ -127,7 +127,7 @@ namespace Kanapa
     {
       try
       {
-        return JsonConvert.DeserializeObject<CouchDesignDocument>(await RequestDatabase($"{_host}/{db}/_design/{name}", "GET"));
+        return JsonConvert.DeserializeObject<CouchDesignDocument>(await RequestDatabase(new Uri(_host, $"{db}/_design/{name}"), "GET"));
       }
       catch (Exception e)
       {
@@ -142,7 +142,7 @@ namespace Kanapa
       {
         couchDesign.IgnoreRevisionAndId = true;
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/_design/{couchDesign.Name}", "PUT",
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host, $"{db}/_design/{couchDesign.Name}"), "PUT",
             JsonConvert.SerializeObject(couchDesign)));
       }
       catch (Exception e)
@@ -211,7 +211,7 @@ namespace Kanapa
       try
       {
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/{documentId}", "PUT", JsonConvert.SerializeObject(item)));
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host, $"{db}/{documentId}"), "PUT", JsonConvert.SerializeObject(item)));
       }
       catch (Exception e)
       {
@@ -230,7 +230,7 @@ namespace Kanapa
       Response result;
       try
       {
-        result = JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}", "PUT"));
+        result = JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host,db), "PUT"));
       }
       catch (Exception e)
       {
@@ -249,7 +249,7 @@ namespace Kanapa
       Response result;
       try
       {
-        result = JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}", "DELETE"));
+        result = JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host, db), "DELETE"));
       }
       catch (Exception e)
       {
@@ -267,8 +267,7 @@ namespace Kanapa
     {
       try
       {
-        var url = $"{_host}/{db}/_temp_view" + GetKeysPart(fromKey, toKey);
-        var result = await RequestDatabase(url, "POST", JsonConvert.SerializeObject(couchMapReduce), "application/json");
+        var result = await RequestDatabase(new Uri(_host, $"{db}/_temp_view" + GetKeysPart(fromKey, toKey)), "POST", JsonConvert.SerializeObject(couchMapReduce), "application/json");
         return JsonConvert.DeserializeObject<CouchView<T>>(result);
       }
       catch (Exception e)
@@ -281,8 +280,7 @@ namespace Kanapa
     {
       try
       {
-        var url = $"{_host}/{db}/_design/{designName}/_view/{viewName}" + GetKeysPart(fromKey, toKey);
-        var result = await RequestDatabase(url, "GET");
+        var result = await RequestDatabase(new Uri(_host,$"{db}/_design/{designName}/_view/{viewName}" + GetKeysPart(fromKey, toKey)), "GET");
         return JsonConvert.DeserializeObject<CouchView<T>>(result);
       }
       catch (Exception e)
@@ -297,7 +295,7 @@ namespace Kanapa
       try
       {
         response =
-          JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}", "POST", JsonConvert.SerializeObject(content), "application/json"));
+          JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host,db), "POST", JsonConvert.SerializeObject(content), "application/json"));
       }
       catch (Exception e)
       {
@@ -315,7 +313,7 @@ namespace Kanapa
     {
       try
       {
-        return JsonConvert.DeserializeObject<T>(await RequestDatabase($"{_host}/{db}/{documentId}", "GET"));
+        return JsonConvert.DeserializeObject<T>(await RequestDatabase(new Uri(_host,$"{db}/{documentId}"), "GET"));
       }
       catch (Exception e)
       {
@@ -328,7 +326,7 @@ namespace Kanapa
       Response response;
       try
       {
-        response = JsonConvert.DeserializeObject<Response>(await RequestDatabase($"{_host}/{db}/{docid}?rev={etag}", "DELETE"));
+        response = JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host,$"{db}/{docid}?rev={etag}"), "DELETE"));
       }
       catch (Exception e)
       {
@@ -358,7 +356,7 @@ namespace Kanapa
       return urlPart;
     }
 
-    private async Task<string> RequestDatabase(string url, string method, string data = null, string contentType = null) =>
+    private async Task<string> RequestDatabase(Uri url, string method, string data = null, string contentType = null) =>
 #if DNXCORE50
         await DnxCoreImplementation(url, method, data, contentType);
 #else
@@ -366,7 +364,7 @@ namespace Kanapa
 #endif
 
 #if DNXCORE50
-    private async Task<string> DnxCoreImplementation(string url, string method, string data, string contentType, int deep=0)
+    private async Task<string> DnxCoreImplementation(Uri url, string method, string data, string contentType, int deep=0)
     {
       using (var client = new HttpClient())
       {
@@ -418,7 +416,7 @@ namespace Kanapa
       }
     }
 #else
-    private async Task<string> Dnx451Implementation(string url, string method, string data, string contentType, int deep = 0)
+    private async Task<string> Dnx451Implementation(Uri url, string method, string data, string contentType, int deep = 0)
     {
       var req = (HttpWebRequest)WebRequest.Create(url);
       req.Method = method;

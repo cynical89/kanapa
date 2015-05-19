@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Kanapa
 {
-  public sealed class CouchDefaultHostEqualityComparer :IEqualityComparer<string>
+  public sealed class CouchDefaultHostEqualityComparer :IEqualityComparer<Uri>
   {
-    public bool Equals(string x, string y)
+    public bool Equals(Uri x, Uri y)
     {
-      return Uri.Compare(new Uri(x), new Uri(y), UriComponents.Host, UriFormat.Unescaped, StringComparison.OrdinalIgnoreCase) ==  0;
+      return Uri.Compare(x, y, UriComponents.Host, UriFormat.Unescaped, StringComparison.OrdinalIgnoreCase) ==  0;
     }
 
-    public int GetHashCode(string obj)
+    public int GetHashCode(Uri obj)
     {
       return obj.GetHashCode();
     }

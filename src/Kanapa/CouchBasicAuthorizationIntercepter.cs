@@ -8,7 +8,7 @@ namespace Kanapa
   {
     private readonly ICouchHeader[] _header;
 
-    public CouchBasicAuthorizationIntercepter(string host, string userName, string password, IEqualityComparer<string> hostEqualityComparer)
+    public CouchBasicAuthorizationIntercepter(Uri host, string userName, string password, IEqualityComparer<Uri> hostEqualityComparer)
       :base(host,hostEqualityComparer)
     {
       _header = new ICouchHeader[] {new DefaultCouchHeader("Authorization", "Basic "+ Convert.ToBase64String(Encoding.UTF8.GetBytes(userName + ":" + password)))};

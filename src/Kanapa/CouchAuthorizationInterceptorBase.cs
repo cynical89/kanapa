@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
 
 namespace Kanapa
 {
   public abstract class CouchAuthorizationInterceptorBase : ICouchAuthorizationInterceptor
   {
-    protected string Host { get; }
-    protected IEqualityComparer<string> HostEqualityComparer { get; }
+    protected Uri Host { get; }
+    protected IEqualityComparer<Uri> HostEqualityComparer { get; }
 
-    protected CouchAuthorizationInterceptorBase(string host, IEqualityComparer<string> hostEqualityComparer)
+    protected CouchAuthorizationInterceptorBase(Uri host, IEqualityComparer<Uri> hostEqualityComparer)
     {
       if (hostEqualityComparer == null)
       {
@@ -20,12 +21,12 @@ namespace Kanapa
     protected abstract IEnumerable<ICouchHeader> ProvideHeaders();
     protected abstract bool PerformAuthorization();
 
-    protected virtual bool HostEqual(string hostToCompare)
+    protected virtual bool HostEqual(Uri hostToCompare)
     {
       return HostEqualityComparer.Equals(hostToCompare, Host);
     }
 
-    public virtual IEnumerable<ICouchHeader> ProvideHeaders(string host)
+    public virtual IEnumerable<ICouchHeader> ProvideHeaders(Uri host)
     {
       if (HostEqual(host))
       {
@@ -35,7 +36,7 @@ namespace Kanapa
       throw new CouchException($"Unknown host, to authorizate {host}. Only {Host} can be authorized.");
     }
 
-    public virtual bool PerformAuthorization(string host)
+    public virtual bool PerformAuthorization(Uri host)
     {
       if (HostEqual(host))
       {

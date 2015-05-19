@@ -7,7 +7,7 @@ namespace Kanapa
   {
     private string _currentCookie;
 
-    public CouchCookieAuthorizationIntercepter(string host, IEqualityComparer<string> hostEqualityComparer) 
+    public CouchCookieAuthorizationIntercepter(Uri host, IEqualityComparer<Uri> hostEqualityComparer) 
       : base(host, hostEqualityComparer)
     {
       _currentCookie = null;
