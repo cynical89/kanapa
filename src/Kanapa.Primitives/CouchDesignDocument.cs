@@ -3,16 +3,15 @@ using Newtonsoft.Json;
 
 namespace Kanapa.Primitives
 {
-  // TODO JsonConverter. On deserialization should read revision and id, on serialization - should ignore.
   public class CouchDesignDocument
   {
     [JsonIgnore]
     public string Name => Id.Substring(Id.IndexOf('/') + 1);
-    [JsonProperty("_id")]
+    [JsonProperty("_id"), JsonIgnore]
     public string Id { get; set; }
     [JsonProperty("language")]
     public string Language { get; set; }
-    [JsonProperty("_rev", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonProperty("_rev", NullValueHandling = NullValueHandling.Ignore), JsonIgnore]
     public string Revision { get; set; }
     [JsonConverter(typeof(CouchViewDefinitionsConverter)), JsonProperty("views")]
     public IEnumerable<CouchViewDefinition> Views { get; set; }

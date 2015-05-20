@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using Kanapa.Primitives;
 using Newtonsoft.Json;
 
@@ -12,49 +13,54 @@ namespace Kanapa.Auth
     private readonly string _userName;
     private readonly string _password;
     private readonly ICouchMiddleware _middleware;
-    private string _currentCookie;
-    private int _authInProgress;
-    private ManualResetEvent _authComplete;
-    private IEnumerable<ICouchHeader> _headers;
+    private List<ICouchHeader> _headers;
 
-    public CouchCookieAuthorizationIntercepter(Uri host, string userName, string password,ICouchMiddleware middleware, IEqualityComparer<Uri> hostEqualityComparer)
+    public CouchCookieAuthorizationIntercepter(
+      Uri host, 
+      string userName, 
+      string password,
+      ICouchMiddleware middleware,
+      IEqualityComparer<Uri> hostEqualityComparer)
       : base(host, hostEqualityComparer)
     {
       _userName = userName;
       _password = password;
       _middleware = middleware;
-      _currentCookie = null;
-      _authInProgress = 0;
-      _authComplete = new ManualResetEvent(false);
-      _headers = new ICouchHeader[] { };
+      _headers = new List<ICouchHeader>(4);
     }
 
     protected override Task<IEnumerable<ICouchHeader>> ProvideHeaders()
     {
-      return Task.FromResult(_headers);
+      return Task.FromResult((IEnumerable<ICouchHeader>)_headers.ToArray());
     }
 
     protected async override Task<bool> PerformAuthorization()
     {
-      if (Interlocked.CompareExchange(ref _authInProgress, 1, 0) == 1)
+      if (Monitor.TryEnter(_headers))
       {
-        _authComplete.WaitOne();
+        Monitor.Wait(_headers);
         return true;
       }
       var sessionUri = new Uri(Host, "_session");
       try
       {
-        var response = JsonConvert.DeserializeObject<AuthResponse>(
-          (await _middleware.RequestDatabase(sessionUri, "POST", null, JsonConvert.SerializeObject(new AuthRequest
+        var response =
+          await _middleware.RequestDatabase(sessionUri, "POST", null, JsonConvert.SerializeObject(new AuthRequest
           {
             Name = _userName,
             Password = _password
-          }), "application/json")).Body);
-        if (response.Ok == false)
+          }), "application/json");
+
+        var deserialized = JsonConvert.DeserializeObject<AuthResponse>(response.Body);
+        if (deserialized.Ok == false)
         {
           return false;
         }
-
+        var cookieHeaders =
+          response.ResponseHeaders.Where(
+            l => string.Compare(l.Name, "Set-Cookie", StringComparison.OrdinalIgnoreCase) == 0)
+            .Select(l => (ICouchHeader) new DefaultCouchHeader("Cookie", l.Value.Split(';').First()));
+        _headers = cookieHeaders.ToList();
       }
       catch
       {
@@ -62,8 +68,9 @@ namespace Kanapa.Auth
       }
       finally
       {
-        _authComplete.Set();
+        Monitor.Exit(_headers);
       }
+
       return true;
     }
   }
