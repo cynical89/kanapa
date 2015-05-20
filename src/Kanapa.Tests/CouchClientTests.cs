@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Kanapa.DefaultMiddleware;
 using Kanapa.Tests.Misc;
 using Xunit;
 
@@ -268,7 +269,7 @@ namespace Kanapa.Tests
       return name;
     }
 
-    private CouchClient CreateClient() => new CouchClient(new Uri(_hostName));
+    private CouchClient CreateClient() => new CouchClient(new Uri(_hostName), new DefaultCouchMiddleware());
 
     public static IEnumerable<object[]> TestCasesWithViews => new[]
     {

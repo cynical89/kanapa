@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kanapa.Auth
 {
@@ -14,12 +15,12 @@ namespace Kanapa.Auth
       _header = new ICouchHeader[] {new DefaultCouchHeader("Authorization", "Basic "+ Convert.ToBase64String(Encoding.UTF8.GetBytes(userName + ":" + password)))};
     }
 
-    protected override IEnumerable<ICouchHeader> ProvideHeaders()
+    protected override Task<IEnumerable<ICouchHeader>> ProvideHeaders()
     {
-      return _header;
+      return Task.FromResult((IEnumerable<ICouchHeader>)_header);
     }
 
-    protected override bool PerformAuthorization()
+    protected override Task<bool> PerformAuthorization()
     {
       throw new CouchException($"Unexpected call to perform authorization for http-basic authorization. {Host}");
     }

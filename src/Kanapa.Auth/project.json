@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta4-1",
+  "version": "1.0.0-beta4-6",
   "description": "CouchDb Client for DNX runtime",
   "authors": [ "Uladzimir Harabtsou" ],
   "tags": [ "vnext", "dnx", "couchdb" ],
@@ -10,16 +10,22 @@
 
   "dependencies": {
     "Kanapa": "1.0.0-beta4-*"
+
   },
 
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "dependencies": {
+        "Newtonsoft.Json": "6.0.6"
+      }
+    },
     "dnxcore50": {
       "dependencies": {
         "System.Collections": "4.0.10-beta-22816",
         "System.Linq": "4.0.0-beta-22816",
         "System.Threading": "4.0.10-beta-22816",
         "Microsoft.CSharp": "4.0.0-beta-22816",
+        "Newtonsoft.Json": "6.0.6",
         "Microsoft.Framework.WebEncoders": "1.0.0-beta4"
       }
     }

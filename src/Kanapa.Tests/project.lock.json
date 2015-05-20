@@ -2,7 +2,9 @@
   "locked": false,
   "version": -9998,
   "projectFileDependencyGroups": {
-    "": [],
+    "": [
+      "Kanapa.DefaultMiddleware >= 1.0.0-beta4-6"
+    ],
     "DNX,Version=v4.5.1": [
       "Microsoft.Framework.OptionsModel >= 1.0.0-beta4",
       "xunit.runner.aspnet >= 2.0.0-aspnet-beta4-10266",
@@ -144,6 +146,46 @@
         "lib/net45/Microsoft.CodeAnalysis.CSharp.xml",
         "lib/portable-net45+win8/Microsoft.CodeAnalysis.CSharp.dll",
         "lib/portable-net45+win8/Microsoft.CodeAnalysis.CSharp.xml"
+      ]
+    },
+    "Microsoft.CSharp/4.0.0-beta-22816": {
+      "serviceable": false,
+      "sha": "FGnaYvmoVLd0QTnOyHfm+C79a9CGqQAoh76Ix9++a4SdeaAB8PgpB2Vi/Uc5jcp491QvPyPQjtXCuhRfqWvNkw==",
+      "frameworks": {
+        "DNX,Version=v4.5.1": {
+          "dependencies": {
+            "System.Dynamic.Runtime": "4.0.10-beta-22816",
+            "System.Linq.Expressions": "4.0.10-beta-22816",
+            "System.Runtime": "4.0.20-beta-22816"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [],
+          "compileAssemblies": []
+        },
+        "DNXCore,Version=v5.0": {
+          "dependencies": {
+            "System.Dynamic.Runtime": "4.0.10-beta-22816",
+            "System.Linq.Expressions": "4.0.10-beta-22816",
+            "System.Runtime": "4.0.20-beta-22816"
+          },
+          "frameworkAssemblies": [],
+          "runtimeAssemblies": [
+            "lib/aspnetcore50/Microsoft.CSharp.dll"
+          ],
+          "compileAssemblies": [
+            "lib/contract/Microsoft.CSharp.dll"
+          ]
+        }
+      },
+      "files": [
+        "License.rtf",
+        "Microsoft.CSharp.4.0.0-beta-22816.nupkg",
+        "Microsoft.CSharp.4.0.0-beta-22816.nupkg.sha512",
+        "Microsoft.CSharp.nuspec",
+        "lib/aspnetcore50/Microsoft.CSharp.dll",
+        "lib/contract/Microsoft.CSharp.dll",
+        "lib/net45/_._",
+        "lib/portable-wpa81+wp80+win80+net45+aspnetcore50/Microsoft.CSharp.dll"
       ]
     },
     "Microsoft.Framework.ApplicationHost/1.0.0-beta4-11566": {

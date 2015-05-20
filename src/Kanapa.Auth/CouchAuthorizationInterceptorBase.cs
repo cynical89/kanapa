@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Kanapa.Auth
 {
@@ -18,29 +19,29 @@ namespace Kanapa.Auth
       HostEqualityComparer = hostEqualityComparer;
     }
 
-    protected abstract IEnumerable<ICouchHeader> ProvideHeaders();
-    protected abstract bool PerformAuthorization();
+    protected abstract Task<IEnumerable<ICouchHeader>> ProvideHeaders();
+    protected abstract Task<bool> PerformAuthorization();
 
     protected virtual bool HostEqual(Uri hostToCompare)
     {
       return HostEqualityComparer.Equals(hostToCompare, Host);
     }
 
-    public virtual IEnumerable<ICouchHeader> ProvideHeaders(Uri host)
+    public virtual async Task<IEnumerable<ICouchHeader>> ProvideHeaders(Uri host)
     {
       if (HostEqual(host))
       {
-        return ProvideHeaders();
+        return await ProvideHeaders();
       }
 
       throw new CouchException($"Unknown host, to authorizate {host}. Only {Host} can be authorized.");
     }
 
-    public virtual bool PerformAuthorization(Uri host)
+    public async virtual Task<bool> PerformAuthorization(Uri host)
     {
       if (HostEqual(host))
       {
-        return PerformAuthorization();
+        return await PerformAuthorization();
       }
 
       throw new CouchException($"Unknown host, to authorizate {host}. Only {Host} can be authorized.");

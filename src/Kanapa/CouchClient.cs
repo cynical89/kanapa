@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Text;
 using System.Linq;
-using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-#if DNXCORE50
-using System.Net.Http;
-#else
-using System.IO;
-using System.Threading;
-#endif
 
 namespace Kanapa
 {
@@ -20,11 +12,17 @@ namespace Kanapa
   {
     private readonly Uri _host;
     private readonly ICouchAuthorizationInterceptor _couchAuthorizationInterceptor;
+    private readonly ICouchMiddleware _middleware;
 
-    public CouchClient(Uri host, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
+    public CouchClient(Uri host, ICouchMiddleware middleware, ICouchAuthorizationInterceptor couchAuthorizationInterceptor = null)
     {
+      if (middleware == null)
+      {
+        throw new ArgumentNullException(nameof(middleware));
+      }
       _host = new Uri(host, "/");
       _couchAuthorizationInterceptor = couchAuthorizationInterceptor;
+      _middleware = middleware;
     }
 
     public async Task<IEnumerable<string>> GetDatabaseNames()
@@ -354,138 +352,6 @@ namespace Kanapa
     }
 
     private async Task<string> RequestDatabase(Uri url, string method, string data = null, string contentType = null) =>
-#if DNXCORE50
-        await DnxCoreImplementation(url, method, data, contentType);
-#else
-        await Dnx451Implementation(url, method, data, contentType);
-#endif
-
-#if DNXCORE50
-    private async Task<string> DnxCoreImplementation(Uri url, string method, string data, string contentType, int deep=0)
-    {
-      using (var client = new HttpClient())
-      {
-        using (var request = new HttpRequestMessage
-        {
-          Method = new HttpMethod(method)
-        })
-        {
-          if (string.IsNullOrEmpty(data) == false)
-          {
-            request.Content = new StringContent(data, Encoding.UTF8, contentType);
-          }
-          if (_couchAuthorizationInterceptor != null)
-          {
-            foreach (var header in _couchAuthorizationInterceptor.ProvideHeaders(_host))
-            {
-              request.Headers.Add(header.Name,header.Value);
-            }
-          }
-          var result = await client.SendAsync(request);
-          if(result.StatusCode == HttpStatusCode.Unauthorized)
-          {
-            if (deep > 0)
-            {
-              throw new CouchException("Authentication interceptor failed to authenticate application.");
-            }
-
-            if (_couchAuthorizationInterceptor == null)
-            {
-              throw new CouchException("Authentication interceptor is not set, but server requires authentication.");
-            }
-
-            if(_couchAuthorizationInterceptor.PerformAuthorization(_host) == false)
-            {
-              throw new CouchException($"Authentication interceptor failed to authenticate host {_host}");
-            }
-
-            return await DnxCoreImplementation(url, method, data, contentType, ++deep);
-          }
-
-          if(result.IsSuccessStatusCode == false)
-          {
-            throw new CouchException($"Response status code does not indicate success or exception occured. {result.StatusCode} : {result.ReasonPhrase}");
-          }
-
-          var content = await result.Content.ReadAsStringAsync();
-          return content;
-        }
-      }
-    }
-#else
-    private async Task<string> Dnx451Implementation(Uri url, string method, string data, string contentType, int deep = 0)
-    {
-      var req = (HttpWebRequest)WebRequest.Create(url);
-      req.Method = method;
-      req.Timeout = Timeout.Infinite;
-
-      if (string.IsNullOrEmpty(contentType) == false)
-      {
-        req.ContentType = contentType;
-      }
-
-      if (string.IsNullOrEmpty(data) == false)
-      {
-        var bytes = Encoding.UTF8.GetBytes(data);
-        req.ContentLength = bytes.Length;
-        using (var ps = req.GetRequestStream())
-        {
-          ps.Write(bytes, 0, bytes.Length);
-        }
-      }
-    
-      if(_couchAuthorizationInterceptor != null)
-      {
-        foreach (var header in _couchAuthorizationInterceptor.ProvideHeaders(_host))
-        {
-          req.Headers[header.Name] = header.Value;
-        }
-      }
-
-      try
-      {
-        using (var resp = (HttpWebResponse) await req.GetResponseAsync())
-        {
-          string result;
-          using (var stream = resp.GetResponseStream())
-          {
-            if (stream == null)
-            {
-              throw new InvalidOperationException("Response stream contains no data");
-            }
-            using (var reader = new StreamReader(stream))
-            {
-              result = await reader.ReadToEndAsync();
-            }
-          }
-          return result;
-        }
-      }
-      catch (WebException e)
-      {
-        if(deep > 0)
-        {
-          throw new CouchException("Authentication interceptor failed to authenticate application.");
-        }
-
-        if ((e.Status != WebExceptionStatus.ProtocolError) && ((HttpWebResponse)e.Response).StatusCode != HttpStatusCode.Unauthorized)
-        {
-          throw new CouchException("Response status code does not indicate success or exception occured.", e);
-        }
-       
-        if (_couchAuthorizationInterceptor == null)
-        {
-          throw new CouchException("Authentication interceptor is not set, but server requires authentication.", e);
-        }
-
-        if (_couchAuthorizationInterceptor.PerformAuthorization(_host) == false)
-        {
-          throw new CouchException($"Authentication interceptor failed to authenticate host {_host}");
-        }
-
-        return await Dnx451Implementation(url,method,data,contentType,++deep);
-      }
-    }
-#endif
+      (await _middleware.RequestDatabase(url, method, _couchAuthorizationInterceptor, data, contentType)).Body;
   }
 }
