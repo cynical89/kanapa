@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Kanapa.Primitives;
 
 #if DNXCORE50
 using System.Net.Http;

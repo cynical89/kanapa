@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "1.0.0-beta4-6",
   "description": "CouchDb Client for DNX runtime",
   "authors": [ "Uladzimir Harabtsou" ],
@@ -9,27 +9,20 @@
   "copyright": "Uladzimir Harabtsou, 2015",
 
   "dependencies": {
-    "Kanapa.Primitives": "1.0.0-beta4-*"
+    "Newtonsoft.Json": "6.0.6"
   },
 
   "frameworks": {
     "dnx451": {
-      "dependencies": {
-        "System.Collections": "4.0.10-beta-22816",
-        "Newtonsoft.Json": "6.0.6"
-      }
+      
     },
     "dnxcore50": {
       "dependencies": {
-        "System.Collections": "4.0.10-beta-22816",
         "Newtonsoft.Json": "6.0.6",
-        "System.Dynamic.Runtime": "4.0.10-beta-22816",
+        "System.Collections": "4.0.10-beta-22816",
         "System.Linq": "4.0.0-beta-22816",
-        "System.Runtime.Serialization.Primitives": "4.0.10-beta-22816",
-        "System.Runtime": "4.0.20-beta-22816",
-        "System.Reflection": "4.0.10-beta-22816",
-        "System.Threading.Tasks": "4.0.10-beta-22816"
-
+        "System.Threading": "4.0.10-beta-22816",
+        "Microsoft.CSharp": "4.0.0-beta-22816"
       }
     }
   }

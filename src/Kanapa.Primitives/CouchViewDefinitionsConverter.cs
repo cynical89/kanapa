@@ -1,13 +1,14 @@
 using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 #if DNXCORE50
 using System.Reflection;
 #endif
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
   public sealed class CouchViewDefinitionsConverter : JsonConverter
   {

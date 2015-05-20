@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
   public interface ICouchRawResponse
   {

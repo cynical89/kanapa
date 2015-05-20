@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kanapa.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -98,7 +99,7 @@ namespace Kanapa
       return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
-    public async Task<CouchClient> DeleteDesign(string db, string name, string etag)
+    public async Task<CouchEntityInfo> DeleteDesign(string db, string name, string etag)
     {
       Response response;
       try
@@ -115,7 +116,7 @@ namespace Kanapa
         throw new CouchException($"Can`t delete design document {db}/_design/{name}: {response.Reason}");
       }
 
-      return this;
+      return null;
     }
 
     public async Task<CouchDesignDocument> GetDesign(string db, string name)
@@ -135,7 +136,6 @@ namespace Kanapa
       Response response;
       try
       {
-        couchDesign.IgnoreRevisionAndId = true;
         response =
           JsonConvert.DeserializeObject<Response>(await RequestDatabase(new Uri(_host, $"{db}/_design/{couchDesign.Name}"), "PUT",
             JsonConvert.SerializeObject(couchDesign)));
@@ -171,7 +171,7 @@ namespace Kanapa
       return design;
     }
 
-    public async Task<CouchClient> DeleteView(string db, string designName, string viewName)
+    public async Task<CouchEntityInfo> DeleteView(string db, string designName, string viewName)
     {
       var design = await GetDesign(db, designName);
       if (design.Views.Any(p => p.Name == viewName) == false)
@@ -181,7 +181,7 @@ namespace Kanapa
       design.Views = design.Views.Where(l => l.Name != viewName).ToArray();
       await PutDesign(db, design);
 
-      return this;
+      return null;
     }
 
     public async Task<CouchEntityInfo> PutView(string db, string designName, CouchViewDefinition couchView)
@@ -220,7 +220,7 @@ namespace Kanapa
       return new CouchEntityInfo { ETag = response.ETag, Id = response.EntityId };
     }
 
-    public async Task<CouchClient> CreateDatabase(string db)
+    public async Task<CouchEntityInfo> CreateDatabase(string db)
     {
       Response result;
       try
@@ -236,10 +236,10 @@ namespace Kanapa
         throw new CouchException($"Failed to create database {db} : {result.Reason}");
       }
 
-      return this;
+      return null;
     }
 
-    public async Task<CouchClient> DeleteDatabase(string db)
+    public async Task<CouchEntityInfo> DeleteDatabase(string db)
     {
       Response result;
       try
@@ -255,7 +255,7 @@ namespace Kanapa
         throw new CouchException($"Failed to delete database {db}: {result.Reason}");
       }
 
-      return this;
+      return null;
     }
 
     public async Task<CouchView<T>> CreateAndQueryTemporaryView<T>(string db, CouchMapReduce couchMapReduce, string fromKey = null, string toKey = null)
@@ -316,7 +316,7 @@ namespace Kanapa
       }
     }
 
-    public async Task<CouchClient> Delete(string db, string docid, string etag)
+    public async Task<CouchEntityInfo> Delete(string db, string docid, string etag)
     {
       Response response;
       try
@@ -331,7 +331,7 @@ namespace Kanapa
       {
         throw new CouchException($"Can`t delete {db}/{docid}: {response.Reason}");
       }
-      return this;
+      return null;
     }
 
     private static string GetKeysPart(string fromKey, string toKey)

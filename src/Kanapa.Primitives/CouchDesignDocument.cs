@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
+  // TODO JsonConverter. On deserialization should read revision and id, on serialization - should ignore.
   public class CouchDesignDocument
   {
     [JsonIgnore]
@@ -15,10 +16,5 @@ namespace Kanapa
     public string Revision { get; set; }
     [JsonConverter(typeof(CouchViewDefinitionsConverter)), JsonProperty("views")]
     public IEnumerable<CouchViewDefinition> Views { get; set; }
-    [JsonIgnore]
-    internal bool IgnoreRevisionAndId { get; set; }
-
-    internal bool ShouldSerializeRevision => IgnoreRevisionAndId;
-    internal bool ShouldSerializeId => IgnoreRevisionAndId;
   }
 }

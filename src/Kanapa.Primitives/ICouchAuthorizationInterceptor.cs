@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
   public interface ICouchAuthorizationInterceptor
   {

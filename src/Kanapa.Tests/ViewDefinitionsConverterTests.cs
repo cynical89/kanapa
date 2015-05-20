@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using Kanapa.Primitives;
 using Newtonsoft.Json;
 using Kanapa.Tests.Misc;
 using Xunit;

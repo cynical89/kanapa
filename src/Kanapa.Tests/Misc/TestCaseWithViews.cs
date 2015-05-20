@@ -1,3 +1,5 @@
+using Kanapa.Primitives;
+
 namespace Kanapa.Tests.Misc
 {
   public class TestCaseWithViews

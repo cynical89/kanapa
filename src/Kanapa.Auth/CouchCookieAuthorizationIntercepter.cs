@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Kanapa.Primitives;
 using Newtonsoft.Json;
 
 namespace Kanapa.Auth

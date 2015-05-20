@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Kanapa.DefaultMiddleware;
+using Kanapa.Primitives;
 using Kanapa.Tests.Misc;
 using Xunit;
 
@@ -32,7 +33,9 @@ namespace Kanapa.Tests
     public void Client_DeletsDatabase_WithoutErrors() => Wrap(async () =>
     {
       var dbName = GenerateDbName();
-      await (await CreateClient().CreateDatabase(dbName)).DeleteDatabase(dbName);
+      var client = CreateClient();
+      await client.CreateDatabase(dbName);
+      await client.DeleteDatabase(dbName);
     });
 
     [Fact]
@@ -40,8 +43,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      var info =
-        await (await client.CreateDatabase(dbName)).Create(dbName, new SimpleObject { Name = "NamedObject", Value = 120 });
+      await client.CreateDatabase(dbName);
+      var info = await client.Create(dbName, new SimpleObject { Name = "NamedObject", Value = 120 });
       await client.Delete(dbName, info.Id, info.ETag);
     });
 
@@ -50,7 +53,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      var assertion = await (await client.CreateDatabase(dbName)).GetDatabaseMetadata(dbName);
+      await client.CreateDatabase(dbName);
+      var assertion = await client.GetDatabaseMetadata(dbName);
       Assert.NotNull(assertion);
     });
 
@@ -63,7 +67,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).Create(dbName, new SimpleObject
+      await client.CreateDatabase(dbName);
+      await client.Create(dbName, new SimpleObject
       {
         Name = "SomeName",
         Value = 1
@@ -75,7 +80,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).Create(dbName, new SimpleObject
+      await client.CreateDatabase(dbName);
+      await client.Create(dbName, new SimpleObject
       {
         Name = "SomeName",
         Value = 2
@@ -92,7 +98,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).Create(dbName, new SimpleObject
+      await client.CreateDatabase(dbName);
+      await client.Create(dbName, new SimpleObject
       {
         Name = name,
         Value = value
@@ -175,7 +182,8 @@ namespace Kanapa.Tests
       var dbName = GenerateDbName();
       var client = CreateClient();
       var view = design.Items[0];
-      await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, new[] {view});
+      await client.CreateDatabase(dbName);
+      await client.CreateDesign(dbName, design.AdditionalData, new[] {view});
       for (var i = 1; i < design.Items.Length; i++)
       {
         await client.CreateView(dbName, design.AdditionalData, design.Items[i]);
@@ -189,7 +197,8 @@ namespace Kanapa.Tests
       var dbName = GenerateDbName();
       var client = CreateClient();
       var view = design.Items[0];
-      await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, new[] {view});
+      await client.CreateDatabase(dbName);
+      await client.CreateDesign(dbName, design.AdditionalData, new[] {view});
       for (var i = 1; i < design.Items.Length; i++)
       {
         await client.CreateView(dbName, design.AdditionalData, design.Items[i]);
@@ -207,7 +216,8 @@ namespace Kanapa.Tests
       var dbName = GenerateDbName();
       var client = CreateClient();
       var view = design.Items[0];
-      await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, new[] {view});
+      await client.CreateDatabase(dbName);
+      await client.CreateDesign(dbName, design.AdditionalData, new[] {view});
       for (var i = 1; i < design.Items.Length; i++)
       {
         await client.CreateView(dbName, design.AdditionalData, design.Items[i]);
@@ -228,7 +238,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).Put(dbName, docName, new SimpleObject {Name = GenerateDbName(), Value = 1});
+      await client.CreateDatabase(dbName);
+      await client.Put(dbName, docName, new SimpleObject {Name = GenerateDbName(), Value = 1});
     });
 
     [Theory]
@@ -237,7 +248,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, design.Items);
+      await client.CreateDatabase(dbName);
+      await client.CreateDesign(dbName, design.AdditionalData, design.Items);
     });
 
     [Theory]
@@ -246,7 +258,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      var einfo = await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, design.Items);
+      await client.CreateDatabase(dbName);
+      var einfo = await client.CreateDesign(dbName, design.AdditionalData, design.Items);
       await client.DeleteDesign(dbName, design.AdditionalData, einfo.ETag);
     });
 
@@ -256,7 +269,8 @@ namespace Kanapa.Tests
     {
       var dbName = GenerateDbName();
       var client = CreateClient();
-      await (await client.CreateDatabase(dbName)).CreateDesign(dbName, design.AdditionalData, design.Items);
+      await client.CreateDatabase(dbName);
+      await client.CreateDesign(dbName, design.AdditionalData, design.Items);
       var dd = await client.GetDesign(dbName, design.AdditionalData);
       Assert.Equal(dd.Name, dd.Name);
     });

@@ -9,7 +9,7 @@
   "copyright": "Uladzimir Harabtsou, 2015",
 
   "dependencies": {
-    "Kanapa": "1.0.0-beta4-6"
+    
   },
 
   "frameworks": {
@@ -17,7 +17,8 @@
       "dependencies": {
         "Newtonsoft.Json": "6.0.6",
         "System.Net.Http": "4.0.0-beta-22816",
-        "System.Net.Primitives": "4.0.10-beta-22816"
+        "System.Net.Primitives": "4.0.10-beta-22816",
+        "Kanapa.Primitives": "1.0.0-beta4-6"
       }
     },
     "dnxcore50": {
@@ -28,8 +29,8 @@
         "System.Collections": "4.0.10-beta-22816",
         "System.Linq": "4.0.0-beta-22816",
         "System.Threading": "4.0.10-beta-22816",
-        "Microsoft.CSharp": "4.0.0-beta-22816"
-
+        "Microsoft.CSharp": "4.0.0-beta-22816",
+        "Kanapa.Primitives": "1.0.0-beta4-6"
       }
     }
   }

@@ -1,4 +1,4 @@
-namespace Kanapa.DefaultMiddleware
+namespace Kanapa.Primitives
 {
   public sealed class DefaultCouchHeader : ICouchHeader
   {

@@ -1,4 +1,4 @@
-namespace Kanapa
+namespace Kanapa.Primitives
 {
   public interface ICouchHeader
   {

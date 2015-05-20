@@ -1,9 +1,10 @@
 using System;
-#if !DNXCORE50
 using System.Runtime.Serialization;
+#if !DNXCORE50
+
 #endif
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
 #if !DNXCORE50
   [Serializable]

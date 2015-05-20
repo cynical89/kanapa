@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Kanapa
+namespace Kanapa.Primitives
 {
   public class CouchMapReduce
   {
