@@ -13,7 +13,7 @@ namespace Kanapa.Auth
     private readonly string _userName;
     private readonly string _password;
     private readonly ICouchMiddleware _middleware;
-    private List<ICouchHeader> _headers;
+    private readonly List<ICouchHeader> _headers;
 
     public CouchCookieAuthorizationIntercepter(
       Uri host, 
@@ -23,6 +23,10 @@ namespace Kanapa.Auth
       IEqualityComparer<Uri> hostEqualityComparer)
       : base(host, hostEqualityComparer)
     {
+      if (middleware == null)
+      {
+        throw new ArgumentNullException(nameof(middleware));
+      }
       _userName = userName;
       _password = password;
       _middleware = middleware;
@@ -60,7 +64,11 @@ namespace Kanapa.Auth
           response.ResponseHeaders.Where(
             l => string.Compare(l.Name, "Set-Cookie", StringComparison.OrdinalIgnoreCase) == 0)
             .Select(l => (ICouchHeader) new DefaultCouchHeader("Cookie", l.Value.Split(';').First()));
-        _headers = cookieHeaders.ToList();
+        _headers.Clear();
+        foreach (var header in cookieHeaders)
+        {
+          _headers.Add(header);
+        }
       }
       catch
       {
