@@ -1,8 +1,17 @@
 ﻿{
+  "version": "1.0.0-beta4-{BUILD}",
+  "description": "CouchDb Client for DNX runtime",
+  "authors": [ "Uladzimir Harabtsou" ],
+  "tags": [ "vnext", "dnx", "couchdb" ],
+  "projectUrl": "https://github.com/l0nley/kanapa",
+  "licenseUrl": "http://opensource.org/licenses/MIT",
+  "summary": "Simple CouchDb client for DNX runtime",
+  "copyright": "Uladzimir Harabtsou, 2015",
+  
   "dependencies": {
-    "Kanapa.DefaultMiddleware": "1.0.0-beta4-*",
-    "Kanapa.Primitives": "1.0.0-beta4-*",
-    "Kanapa": "1.0.0-beta4-*"
+    "Kanapa.DefaultMiddleware": "1.0.0-beta4-{BUILD}",
+    "Kanapa.Primitives": "1.0.0-beta4-{BUILD}",
+    "Kanapa": "1.0.0-beta4-{BUILD}"
   },
   "frameworks": {
     "dnx451": {

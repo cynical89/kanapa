@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta4-6",
+  "version": "1.0.0-beta4-{BUILD}",
   "description": "CouchDb Client for DNX runtime",
   "authors": [ "Uladzimir Harabtsou" ],
   "tags": [ "vnext", "dnx", "couchdb" ],
@@ -9,7 +9,7 @@
   "copyright": "Uladzimir Harabtsou, 2015",
 
   "dependencies": {
-    "Kanapa.Primitives": "1.0.0-beta4-*"
+    "Kanapa.Primitives": "1.0.0-beta4-{BUILD}"
   },
 
   "frameworks": {
