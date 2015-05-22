@@ -8,6 +8,6 @@ Write-Host "Discovering files...."
 $files = Get-ChildItem -Path "" -Filter "$($pattern)" -Recurse
 foreach($file in $files) {
 	 Write-Host $file.FullName
-	 $package = '$($env:CACHED_NUGET) push "$($file.FullName)" $($myget) -s https://www.myget.org/F/l0nley'
+	 $package = '{0} push "{1}" {2} -s https://www.myget.org/F/l0nley' -f $env:CACHED_NUGET,$file.FullName,$myget
      Invoke-Expression $package
 }
