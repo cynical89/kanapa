@@ -2,10 +2,10 @@
   "locked": false,
   "version": -9998,
   "projectFileDependencyGroups": {
-    "": [
+    "": [],
+    "DNX,Version=v4.5.1": [
       "Newtonsoft.Json >= 6.0.6"
     ],
-    "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": [
       "Newtonsoft.Json >= 6.0.6",
       "System.Collections >= 4.0.10-beta-22816",
