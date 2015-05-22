@@ -2,8 +2,8 @@ init:
   - git config --global core.autocrlf true
 build_script:
   - build.cmd --quiet  verify
- on_success:
-  - success.cmd
 clone_depth: 1
 test: off
 deploy: off
+on_success:
+  - success.cmd
