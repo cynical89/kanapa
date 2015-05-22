@@ -8,8 +8,6 @@ IF EXIST %CACHED_NUGET% goto copynuget
 echo Downloading latest version of NuGet.exe...
 IF NOT EXIST %LocalAppData%\NuGet md %LocalAppData%\NuGet
 powershell -NoProfile -ExecutionPolicy unrestricted -Command "$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest 'https://www.nuget.org/nuget.exe' -OutFile '%CACHED_NUGET%'"
-powershell -NoProfile -ExecutionPolicy unrestricted -File "package-version.ps1"
-
 
 :copynuget
 IF EXIST .nuget\nuget.exe goto restore
@@ -26,6 +24,6 @@ CALL packages\KoreBuild\build\dnvm upgrade -runtime CLR -arch x86
 CALL packages\KoreBuild\build\dnvm install default -runtime CoreCLR -arch x86
 
 :run
-
+powershell -NoProfile -ExecutionPolicy unrestricted -File "package-version.ps1"
 CALL packages\KoreBuild\build\dnvm use default -runtime CLR -arch x86
 packages\Sake\tools\Sake.exe -I packages\KoreBuild\build -f build.shade %*
