@@ -3,7 +3,7 @@
   "version": -9998,
   "projectFileDependencyGroups": {
     "": [
-      "Kanapa.Primitives >= 1.0.0-beta4-*"
+      "Kanapa.Primitives >= 1.0.0-beta4-{BUILD}"
     ],
     "DNX,Version=v4.5.1": [
       "System.Collections >= 4.0.10-beta-22816",

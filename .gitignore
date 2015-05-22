@@ -9,3 +9,4 @@
 /packages/
 
 *.user
+/src/artifacts/bin
