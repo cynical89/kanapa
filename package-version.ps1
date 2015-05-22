@@ -1,5 +1,4 @@
 Write-Host "Ok, lets see how we can update packages"
-$env:APPVEYOR_BUILD_NUMBER = "57"
 $packBuild = $env:APPVEYOR_BUILD_NUMBER
 $pattern = "{BUILD}"
 Write-Host "Build number is:",$packBuild
